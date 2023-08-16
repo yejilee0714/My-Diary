@@ -15,4 +15,5 @@ const BasicHeaderStyle = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  padding-top: 5px;
 `

@@ -22,6 +22,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body{
+    all: unset;
     background-color: var(--main-color);
     color: inherit;
   }
@@ -35,8 +36,9 @@ const GlobalStyle = createGlobalStyle`
 
   img {
     vertical-align: top;
-    width: 100%;
-    height: 100%;
+  }
+  p{
+    all: unset;
   }
   textarea{
     padding: 0;
