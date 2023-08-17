@@ -1,24 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import MainHeader from "./components/header/MainHeader";
+import UploadHeader from "./components/header/UploadHeader";
+import GlobalStyle from "./style/GlobalStyle";
+import Navigation from "./components/common/Navbar";
+import Modal from "./components/modal/Modal";
+import AlertModal from "./components/modal/PopupModal";
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <Router>
+    <>
+      <Navigation />
+      <Routes>
+          <Route path="/calendar" />
+          <Route path="/diary" />
+          <Route path="/todo-list" />
+        </Routes>
+      <Modal />
+      <AlertModal
+          submitText="로그아웃"
+          // onSubmit={() => {
+          //   logoutHandler();
+          //   setModalOpen(false);
+          // }}
+          // onCancel={() => setModalOpen(false)}
         >
-          Learn React
-        </a>
-      </header>
-    </div>
+          로그아웃하시겠어요?
+        </AlertModal>
+      <GlobalStyle />
+    </>
+
+    </Router>
   );
 }
 
