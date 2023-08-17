@@ -26,6 +26,9 @@ const GlobalStyle = createGlobalStyle`
     background-color: var(--main-color);
     color: inherit;
   }
+  h1{
+    all: unset;
+  }
   a {
     color: inherit;
     text-decoration: none;
