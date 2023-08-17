@@ -40,6 +40,13 @@ const GlobalStyle = createGlobalStyle`
   p{
     all: unset;
   }
+  button{
+    all: unset;
+    cursor: pointer;
+  }
+  ul, li{
+    all: unset;
+  }
   textarea{
     padding: 0;
     border: none;
