@@ -1,10 +1,28 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import moon from "../../assets/img/moon.svg"
 import '../../style/font.css'
 
+const fadeIn = keyframes`
+  from {
+    opacity: .0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
+
+const fadeUp = keyframes`
+  from {
+    opacity: .0;
+    transform: translateY(50px);
+  }
+  to {
+    transform: none;
+  }
+`;
+
 const StyledLoginPopUpPage = styled.div`
   background: var(--btn-border-color);
-  /* width: 100%; */
   height: 100vh;
 `
 
@@ -16,6 +34,7 @@ const LogoImageWrap = styled.div`
   width: 323px;
   height: 323px;
   background: url(${moon}) no-repeat 0 0 / auto 100%;
+  animation: ${fadeIn} 1s;
   .main-logo {
     width: 193.266px;
     height: 260.738px;
@@ -36,6 +55,7 @@ const LoginPopUpWrap = styled.div`
   display: flex;
   flex-direction: column;
   gap: 17px;
+  animation: ${fadeUp} 3s;
 
   Link{
     width: 100%;

@@ -25,7 +25,7 @@ const StyledSplashPage = styled.main`
     width: 100%;
     text-align: center;
     top: 50%;
-    transform: translateY(50%);
+    transform: translateY(65%);
     animation: ${fadeIn} 3s;
   }
   `
