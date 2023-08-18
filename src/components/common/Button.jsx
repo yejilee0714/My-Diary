@@ -42,7 +42,7 @@ const BasicBtnStyle = styled(Link)`
   font-family: 'GangwonEdu_OTFBoldA';
   font-weight: 400;
   font-size: 16px;
-  width: 322px;
+  width: 100%;
   height: 27px;
   padding-top: 13px;
   text-align: center;

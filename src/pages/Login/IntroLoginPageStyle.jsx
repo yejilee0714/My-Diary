@@ -12,11 +12,13 @@ const LogoImageWrap = styled.div`
   position: absolute;
   top: 40%;
   left: 50%;
-  transform: translate(-50%, -60%);
-  width: 257px;
-  height: 257px;
+  transform: translate(-50%, -55%);
+  width: 323px;
+  height: 323px;
   background: url(${moon}) no-repeat 0 0 / auto 100%;
   .main-logo {
+    width: 193.266px;
+    height: 260.738px;
     position: absolute;
     left: 21%;
     top: 50%;
@@ -35,7 +37,7 @@ const LoginPopUpWrap = styled.div`
   flex-direction: column;
   gap: 17px;
 
-  button{
+  Link{
     width: 100%;
   }
 `

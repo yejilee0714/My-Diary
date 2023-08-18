@@ -35,11 +35,13 @@ const LogoImageWrap = styled.div`
   top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 257px;
-  height: 257px;
+  width: 323px;
+  height: 323px;
   background: url(${moon}) no-repeat 0 0 / auto 100%;
   animation: ${fadeIn} 3s;
   .main-logo {
+    width: 193.266px;
+    height: 260.738px;
     position: absolute;
     left: 21%;
     top: 50%;
