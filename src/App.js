@@ -1,39 +1,33 @@
 import GlobalStyle from "./style/GlobalStyle";
-import Navigation from "./components/common/Navbar";
-import Modal from "./components/modal/Modal";
-import AlertModal from "./components/modal/PopupModal";
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import SplashPage from "./pages/splash/Splash";
+import IntroLoginPage from "./pages/Login/IntroLoginPage";
+import UserInfo from "./contexts/LoginContext";
+import React, { useContext, useEffect, useState } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom"; // BrowserRouter를 가져옵니다.
+
+const Providers = ({ children }) => {
+  const [userInfo, setUserInfo] = useState("");
+
+  useEffect(() => {
+    setUserInfo(JSON.parse(localStorage.getItem("userInfo")));
+  }, []);
+
+  return (
+    <UserInfo.Provider value={{ userInfo, setUserInfo }}>
+      {children}
+    </UserInfo.Provider>
+  );
+};
 
 function App() {
   return (
-    <>
-      <SplashPage />
-      <GlobalStyle />
-    </>
-    // <Router>
-    // <>
-    //   <Navigation />
-    //   <Routes>
-    //       <Route path="/calendar" />
-    //       <Route path="/diary" />
-    //       <Route path="/todo-list" />
-    //     </Routes>
-    //   <Modal />
-    //   <AlertModal
-    //       submitText="로그아웃"
-    //       // onSubmit={() => {
-    //       //   logoutHandler();
-    //       //   setModalOpen(false);
-    //       // }}
-    //       // onCancel={() => setModalOpen(false)}
-    //     >
-    //       로그아웃하시겠어요?
-    //     </AlertModal>
-    
-    // </>
-
-    // </Router>
+    <Providers>
+      <BrowserRouter> {/* BrowserRouter를 여기서 감싸줍니다. */}
+        <Routes>
+          <Route path="/" element={<IntroLoginPage />} />
+        </Routes>
+        <GlobalStyle />
+      </BrowserRouter>
+    </Providers>
   );
 }
 

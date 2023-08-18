@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import '../../style/font.css'
+import { Link } from 'react-router-dom';
 
 export function DisabledBtn({ contents }) {
   return <DisabledBtnStyle disabled>{contents}</DisabledBtnStyle>;
@@ -9,8 +10,8 @@ export function AbledBtn({ contents, handleFunc }){
   return <AbledBtnStyle onClick = {handleFunc}>{contents}</AbledBtnStyle>;
 }
 
-export function BasicBtn({ contents, handleFunc }){
-  return <BasicBtnStyle onClick = {handleFunc}>{contents}</BasicBtnStyle>;
+export function BasicBtn({ contents, to}){
+  return <BasicBtnStyle to={to}>{contents}</BasicBtnStyle>;
 }
 
 const ButtonStyle = styled.button`
@@ -18,7 +19,8 @@ const ButtonStyle = styled.button`
   font-weight: 400;
   font-size: 16px;
   width: 322px;
-  height: 44px;
+  height: 35px;
+  padding-top: 5px;
   text-align: center;
   border-radius: 44px;
 `;
@@ -36,7 +38,15 @@ const AbledBtnStyle = styled(ButtonStyle)`
   cursor: pointer;
 `;
 
-const BasicBtnStyle = styled(ButtonStyle)`
+const BasicBtnStyle = styled(Link)`
+  font-family: 'GangwonEdu_OTFBoldA';
+  font-weight: 400;
+  font-size: 16px;
+  width: 322px;
+  height: 27px;
+  padding-top: 13px;
+  text-align: center;
+  border-radius: 44px;
   color: var(--black-color);
   background-color: var(--white-color);
   border: 2px solid var(--btn-border-color);  
