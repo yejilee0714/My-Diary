@@ -1,24 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import GlobalStyle from "./style/GlobalStyle";
+import IntroLoginPage from "./pages/Login/IntroLoginPage";
+import UserInfo from "./contexts/LoginContext";
+import React, { useContext, useEffect, useState } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+
+const Providers = ({ children }) => {
+  const [userInfo, setUserInfo] = useState("");
+
+  useEffect(() => {
+    setUserInfo(JSON.parse(localStorage.getItem("userInfo")));
+  }, []);
+
+  return (
+    <UserInfo.Provider value={{ userInfo, setUserInfo }}>
+      {children}
+    </UserInfo.Provider>
+  );
+};
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Providers>
+      <BrowserRouter> 
+        <Routes>
+          <Route path="/" element={<IntroLoginPage />} />
+        </Routes>
+        <GlobalStyle />
+      </BrowserRouter>
+    </Providers>
   );
 }
 
