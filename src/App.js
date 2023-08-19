@@ -1,7 +1,9 @@
 import GlobalStyle from "./style/GlobalStyle";
 import IntroLoginPage from "./pages/Login/IntroLoginPage";
 import UserInfo from "./contexts/LoginContext";
-import React, { useContext, useEffect, useState } from "react";
+import LoginPage from "./pages/Login/LoginPage";
+
+import React, { useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 const Providers = ({ children }) => {
@@ -24,6 +26,7 @@ function App() {
       <BrowserRouter> 
         <Routes>
           <Route path="/" element={<IntroLoginPage />} />
+          <Route path="/login" element={<LoginPage />}/>
         </Routes>
         <GlobalStyle />
       </BrowserRouter>
