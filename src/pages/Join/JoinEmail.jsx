@@ -4,9 +4,9 @@ import useDebounce from '../../hooks/useDebounce';
 
 import fetchApi from '../../utils/fetchApi';
 import InputInfo from '../../components/Common/InputInfo';
-import { JoinContainer, SignUpForm, LinkStyle } from './JoinEmailStyle';
+import { JoinContainer, JoinForm } from './JoinEmailStyle';
 
-export default function SignUpEmail({setPage, email, setEmail, password, setPassword}) {
+export default function JoinEmailForm({setPage, email, setEmail, password, setPassword}) {
   const [emailValid, setEmailValid] = useState(false);
   const [passwordValid, setPasswordValid] = useState(false);
   const [emailError, setEmailError] = useState("");
@@ -71,7 +71,7 @@ export default function SignUpEmail({setPage, email, setEmail, password, setPass
         );
 
         if (json.message === "회원가입이 성공했습니다.") {
-          setPage("SignUpProfile");
+          setPage("JoinInfo");
         } else {
           setError("회원가입에 실패했습니다. 다시 시도해주세요.");
         }
@@ -84,7 +84,8 @@ export default function SignUpEmail({setPage, email, setEmail, password, setPass
   // 기존페이지에서 넘어가도록 지정
   const handleForm = (e) => {
     e.preventDefault();
-    setPage("SignUpProfile");
+    setPage("JoinInfo");
+    console.log(setPage);
   };
 
 
@@ -92,21 +93,19 @@ export default function SignUpEmail({setPage, email, setEmail, password, setPass
     <>
       <JoinContainer>
         <h1>이메일로 회원가입</h1>
-        <SignUpForm onSubmit={handleSubmit}>
+        <JoinForm onSubmit={handleSubmit}>
           <InputInfo type="email" id="user-email" onChange={handleEmailInput} value={email} warningMsg={emailError} placeholder="이메일 주소를 입력해 주세요">
             이메일
           </InputInfo>
           <InputInfo type="password" id="user-password" onChange={handlePasswordInput} value={password} warningMsg={passwordError} placeholder="비밀번호를 설정해 주세요">
             비밀번호
             </InputInfo>
-          {/* <LoginWarningMsg><p>{warningMessage}</p></LoginWarningMsg> */}
-          {emailValid && passwordValid ? (
-            <AbledBtn contents={"다음"} type={"submit"} onClick={handleForm} />
-          ) : (
-            <DisabledBtn contents={"다음"} type={"submit"} onClick={handleForm}/>
-          )}
-        </SignUpForm>
-        {/* <LinkStyle to={"/join"}>이메일로 회원가입</LinkStyle> */}
+        </JoinForm>
+        {emailValid && passwordValid ? (
+          <AbledBtn contents={"다음"} type={"submit"} onClick={handleForm} />
+        ) : (
+          <DisabledBtn contents={"다음"} type={"submit"} onClick={handleForm}/>
+        )}
       </JoinContainer>
     </>
   );

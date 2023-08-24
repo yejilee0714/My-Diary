@@ -2,12 +2,12 @@ import styled from 'styled-components';
 import '../../style/font.css'
 import { Link } from 'react-router-dom';
 
-export function DisabledBtn({ contents, type }) {
-  return <DisabledBtnStyle type={type} disabled>{contents}</DisabledBtnStyle>;
+export function DisabledBtn({ contents, type, onClick }) {
+  return <DisabledBtnStyle type={type} onClick={onClick} disabled>{contents}</DisabledBtnStyle>;
 }
 
-export function AbledBtn({ contents, type }){
-  return <AbledBtnStyle type={type}>{contents}</AbledBtnStyle>;
+export function AbledBtn({ contents, type, onClick }){
+  return <AbledBtnStyle type={type} onClick={onClick}>{contents}</AbledBtnStyle>;
 }
 
 export function BasicBtn({ contents, to}){

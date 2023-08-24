@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import {NavLink} from "react-router-dom";
 
 const JoinContainer = styled.div`
   padding: 31px 34px;
@@ -12,19 +11,11 @@ const JoinContainer = styled.div`
   }
 `;
 
-const SignUpForm = styled.form`
+const JoinForm = styled.form`
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  margin-bottom: 14px;
 `;
 
-const LinkStyle = styled(NavLink)`
-  display: block;
-  text-align: center;
-  margin-top: 20px;
-  color: var(--gray300-color);
-  font-size: 12px;
-  font-family: 'Pretendard-Regular';
-`;
-
-export {JoinContainer, SignUpForm , LinkStyle};
+export {JoinContainer, JoinForm };

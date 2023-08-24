@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 
-import SignUpEmail from './JoinEmail';
+import JoinEmailForm from './JoinEmail';
+import ProfileSettings from './JoinInfo';
 
 export default function SignUp() {
-  const [page, setPage] = useState('SignUpEmail');
+  const [page, setPage] = useState('JoinEmailForm');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -13,15 +14,15 @@ export default function SignUp() {
 
   return (
     <>
-      {page === 'SignUpEmail' ? (
-        <SignUpEmail
+      {page === 'JoinEmailForm' ? (
+        <JoinEmailForm
           setPage={setPage}
           email={email}
           setEmail={setEmail}
           password={password}
           setPassword={setPassword}
-        ></SignUpEmail>
-      ) : false
+        ></JoinEmailForm>
+      ) : (<ProfileSettings email={email} password={password}></ProfileSettings>)
       }
     </>
   );
