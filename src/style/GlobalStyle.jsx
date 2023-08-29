@@ -31,7 +31,15 @@ const GlobalStyle = createGlobalStyle`
     text-decoration: none;
   }
   input {
-    all: unset;
+    border: none;
+    background: none;
+    font-family: inherit;
+    padding: 0;
+
+    &:focus {
+      outline: none;
+      background: none;
+    }
   }
 
   img {
