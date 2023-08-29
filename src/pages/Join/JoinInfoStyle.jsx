@@ -31,7 +31,7 @@ export const Img = styled.img`
   cursor: pointer;
   position: relative;
   object-fit: cover;
-  border-radius: 100%;
+  border-radius: 50%;
 `;
 
 export const ImgUploadBtn = styled.button`
@@ -60,6 +60,13 @@ export const EditForm = styled.div`
 
 export const Label = styled.label`
 `;
+
+export const ErrorMsg = styled.p`
+  margin-bottom: 2rem;
+  margin-top: -1rem;
+  font-size: 12px;
+  color: var(--warning-color);
+`
 
 export const Input = styled.input`
   margin-bottom: 3rem;

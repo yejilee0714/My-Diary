@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
-import { ProfileInfo, ProfileIntro, ImgUploadBtn, UploadInput, EditForm, Label, Img, ImgIcon, ProfileSettingForm, ProfileTitle } from "./JoinInfoStyle";
+import { ProfileInfo, ProfileIntro, ImgUploadBtn, UploadInput, EditForm, Label, Img, ImgIcon, ProfileSettingForm, ProfileTitle, ErrorMsg } from "./JoinInfoStyle";
 import { useLocation, useNavigate } from "react-router-dom";
 import basicProfileImage from "../../assets/img/profile-main.svg";
 import uploadIcon from "../../assets/img/profile-add.svg"
@@ -92,7 +92,6 @@ export default function ProfileSettings({ email, password }) {
   // 사용자 이름 유효성 검사
   const handleNameInput = (event) => {
     const valueName = event.target.value;
-    setName(valueName);
     if (valueName.length >= 2 && valueName.length <= 10) {
       setNameError("");
       setNameValid(true);
@@ -100,11 +99,16 @@ export default function ProfileSettings({ email, password }) {
       setNameError("2~10자 이내여야 합니다.");
       setNameValid(false);
     }
+    setName(valueName);
   };
 
   useEffect(() => {
     setAccountKeyword(accountname);
-    setAccountnameError("");
+    if (!accountname) {
+      setAccountnameValid(false);
+      setAccountnameError("");
+      return;
+    }
 
     if (prevAccount === accountname) {
       setAccountnameError("");
@@ -123,12 +127,9 @@ export default function ProfileSettings({ email, password }) {
           setAccountnameError(accountValidResult.message);
           break;
       }
-    } else if (accountname && !pattern.test(accountname)) {
-      setAccountnameValid(false);
-      setAccountnameError("영문, 숫자, 특수문자(.),(_)만 사용 가능합니다");
     } else {
       setAccountnameValid(false);
-      setAccountnameError("");
+      setAccountnameError("영문, 숫자, 특수문자(.),(_)만 사용 가능합니다");
     }
   }, [accountname, setAccountKeyword, accountValidResult, prevAccount]);
 
@@ -178,19 +179,7 @@ export default function ProfileSettings({ email, password }) {
           <InputInfo id="user-name" type="text" minLength={2} maxLength={10} placeholder={"2~10자 이내여야 합니다."} value={name} alertMsg={setNameError} onChange={handleNameInput} onBlur={handleNameInput} required>
             사용자이름
           </InputInfo>
-          {nameError && (
-            <p
-              style={{
-                marginBottom: "2rem",
-                marginTop: "-1rem",
-                fontSize: "12px",
-                color: "var(--warning-color)",
-              }}
-            >
-              {nameError}
-            </p>
-          )}
-
+          <ErrorMsg>{nameError}</ErrorMsg>
           <InputInfo
             id="user-id"
             type="text"
@@ -205,25 +194,19 @@ export default function ProfileSettings({ email, password }) {
           >
             계정 ID
           </InputInfo>
-          {accountnameError && (
-            <p
-              style={{
-                marginBottom: "2rem",
-                marginTop: "-1rem",
-                fontSize: "1.2rem",
-                color: "var(--font-red-color)",
-              }}
-            >
-              {accountnameError}
-            </p>
-          )}
+          <ErrorMsg>{accountnameError}</ErrorMsg>
           <InputInfo id="user-introduce" type="text" placeholder="나를 소개하는 글을 작성해주세요." value={introduce} onChange={(e) => setIntroduce(e.target.value)} required>
             소개
           </InputInfo>
         </EditForm>
-        
-        {(nameValid && accountnameValid && !isModify) ? <AbledBtn contents="월간스토리 시작하기" type="submit" onClick={handleForm} /> : <DisabledBtn contents="월간스토리 시작하기" type="submit" onClick={handleForm}/> }
+        {(nameValid && accountnameValid && !isModify) ? (
+  <AbledBtn contents="월간스토리 시작하기" type="submit" onClick={handleForm} />
+) : (
+  <DisabledBtn contents="월간스토리 시작하기" type="submit" onClick={handleForm} />
+)}
+
       </ProfileSettingForm>
     </>
   );
 }
+
