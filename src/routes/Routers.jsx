@@ -1,4 +1,3 @@
-import GlobalStyle from "../style/GlobalStyle";
 import Navigation from "../components/Common/Navbar";
 import Modal from "../components/Modal/Modal";
 import AlertModal from "../components/Modal/PopupModal";
@@ -51,8 +50,6 @@ export default function Routers() {
           >
             로그아웃하시겠어요?
           </AlertModal> */}
-          {/* <GlobalStyle /> */}
-
       {/* </Routes> */}
 
     </Providers>

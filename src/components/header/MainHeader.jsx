@@ -2,11 +2,11 @@ import styled from 'styled-components'
 import { ReactComponent as IconProfile } from '../../assets/img/profile-main.svg'
 import { ReactComponent as IconMore } from '../../assets/icon/more.svg'
 
-export default function MainHeader({handleFunc}){
+export default function MainHeader(){
   return(
     <BasicHeaderStyle>
-      <IconProfile onClick={handleFunc} style={{ cursor:'pointer', height: '100%'}}/>
-      <IconMore onClick={handleFunc} style={{ cursor:'pointer', height: '100%'}}/>
+      <IconProfile style={{ cursor:'pointer', height: '100%'}}/>
+      <IconMore style={{ cursor:'pointer', height: '100%'}}/>
     </BasicHeaderStyle>
   )
 }
