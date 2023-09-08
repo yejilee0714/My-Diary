@@ -103,7 +103,7 @@ function Calendar() {
         <CalendarContent>
           <span>{todayMonth}월 {todayDay}일 {todayWeekday}요일</span>
           <DiaryContent><span>오늘의 일기</span>
-          <div className="textBox"><p>얼른 취뽀해서 열심히 회사 생활하고 싶다...<br />일에 대한 환상을 가지고 있지 않지만 안정적인 일을 하면서 열심히 번 돈으로 생활하고잡구나.... 서울로 취직해서 서울살이 해보자! 다들 군대가 있는 사이에 열심히 돈벌어서 10주년 콘서트 보러 가야지. 그 때는 무조건 양일 다 간다. 그러기 위해서는 열심히 돈을 벌자. 그 전에 단콘 안하려나?<br />창균이의 단콘 무대를 보지 못한게 너무나도 아쉽다.... 첫 단콘인데... 꿍프면서 그걸 보지 못했다니 어쩌겠어 money가 없는 girl~~~ 어쩌겠어</p></div></DiaryContent>
+          <div className="textBox"><p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eum soluta blanditiis fuga, excepturi libero quod illo. Asperiores fugit, accusantium impedit at repudiandae ut odit, repellat velit sint, dolore eaque. Quis. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Rem nihil, culpa suscipit sunt tempora nostrum eius fuga illo fugiat modi magni eaque tenetur alias. Commodi culpa qui iste sapiente fugiat?</p></div></DiaryContent>
           <TodoContent><span>TODO-LIST</span>
           <div className="textBox"><p>* 예시1<br />* 예시2<br />* 예시3<br />* 예시4<br />* 예시5<br />* 예시6<br />
             </p></div></TodoContent>    
