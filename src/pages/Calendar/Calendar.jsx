@@ -103,7 +103,7 @@ function Calendar() {
         <CalendarContent>
           <span>{todayMonth}월 {todayDay}일 {todayWeekday}요일</span>
           <DiaryContent><span>오늘의 일기</span>
-          <div className="textBox"><p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repellendus labore ex at delectus laboriosam blanditiis nobis odit id itaque numquam harum natus explicabo commodi aperiam soluta, qui, voluptatum fugiat nihil. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officiis, adipisci quidem libero harum accusantium dicta voluptatum atque eligendi architecto molestias eveniet quisquam neque sed tempore placeat consequuntur quasi fuga nihil.</p></div></DiaryContent>
+          <div className="textBox"><p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eum soluta blanditiis fuga, excepturi libero quod illo. Asperiores fugit, accusantium impedit at repudiandae ut odit, repellat velit sint, dolore eaque. Quis. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Rem nihil, culpa suscipit sunt tempora nostrum eius fuga illo fugiat modi magni eaque tenetur alias. Commodi culpa qui iste sapiente fugiat?</p></div></DiaryContent>
           <TodoContent><span>TODO-LIST</span>
           <div className="textBox"><p>* 예시1<br />* 예시2<br />* 예시3<br />* 예시4<br />* 예시5<br />* 예시6<br />
             </p></div></TodoContent>    
