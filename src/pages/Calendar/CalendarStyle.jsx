@@ -3,7 +3,7 @@ import { FiHeart } from 'react-icons/fi';
 import '../../style/font.css'
 
 const CalendarContainer = styled.div`
-  margin: 0 auto;
+  margin: 122px auto 80px;
   font-family: 'GangwonEdu_OTFBoldA'
 `;
 
@@ -11,7 +11,7 @@ const CalendarHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 56px 0 25px;
+  margin-bottom: 25px;
   padding: 0 20px;
   font-size: 30px;
 `;
@@ -28,7 +28,6 @@ const CalendarButton = styled.button`
 `;
 
 const CalendarTitle = styled.h2`
-  /* margin: 56px 0 25px; */
   margin: 0;
 `;
 
@@ -44,7 +43,7 @@ const CalendarDay = styled.div`
   align-items: center;
   height: 40px;
   font-size: 30px;
-  position: relative; /* 날짜에 position: relative; 추가 */
+  position: relative;
 
   ${(props) =>
     props.isSaturday &&
@@ -71,8 +70,44 @@ const HeartIcon = styled(FiHeart)`
   fill: #da23ff84;
   position: absolute;
   width: 100%;
-  height: 40px;
+  height: 50px;
+  transform: translateY(-10%);
 `;
 
+const CalendarContent = styled.div`
+  margin: 36px 25px 0;
+  span {
+    font-size: 1.5rem;
+  }
 
-export { CalendarContainer, CalendarHeader, MonthControl , CalendarButton, CalendarTitle, CalendarGrid , CalendarDay , HeartIcon};
+  .textBox {
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background-color: var(--white-color);
+  border-radius: 15px;
+  }
+`
+
+const DiaryContent = styled.div`
+  margin-top: 23px;
+  p{
+    font-size: 12px;
+    margin: 8px;
+    line-height: 17px;
+  }
+`
+  
+const TodoContent = styled.div`
+  margin-top: 23px;
+  p{
+    font-size: 12px;
+    margin: 8px;
+    line-height: 17px;
+  }
+`
+
+
+export { CalendarContainer, CalendarHeader, MonthControl , CalendarButton, CalendarTitle, CalendarGrid , CalendarDay , HeartIcon, CalendarContent, DiaryContent, TodoContent};

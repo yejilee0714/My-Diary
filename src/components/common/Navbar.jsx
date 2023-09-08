@@ -38,6 +38,7 @@ const NavStyle = styled.nav`
   -webkit-box-align: center;
   align-items: center;
   border-top: 1px solid #C0C0C0;
+  background-color: var(--main-color);
 `
 const NavItem = styled(Link)`
   width: 84px;

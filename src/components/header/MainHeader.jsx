@@ -12,10 +12,14 @@ export default function MainHeader(){
 }
 
 const BasicHeaderStyle = styled.div`
+  width: 100%;
   height: 66px;
-  position: relative;
+  position: fixed;
+  top: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding-top: 5px;
+  background-color: var(--main-color);
+  z-index: 1;
 `
