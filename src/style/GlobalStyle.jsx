@@ -46,8 +46,7 @@ const GlobalStyle = createGlobalStyle`
     vertical-align: top;
   }
   p{
-    margin: 0;
-    padding: 0;
+    all: unset;
   }
   button{
     all: unset;
