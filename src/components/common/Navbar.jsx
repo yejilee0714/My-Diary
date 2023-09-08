@@ -7,7 +7,6 @@ import IconDiary from "../../assets/icon/diary-basic-icon.svg"
 import IconFillDiary from "../../assets/icon/diary-select-icon.svg"
 import IconTodo from "../../assets/icon/todo-basic-icon.svg"
 import IconFillTodo from "../../assets/icon/todo-select-icon.svg"
-import '../../style/font.css'
 
 export default function Navigation(){
   const location = useLocation();
@@ -38,7 +37,6 @@ const NavStyle = styled.nav`
   -webkit-box-align: center;
   align-items: center;
   border-top: 1px solid #C0C0C0;
-  background-color: var(--main-color);
 `
 const NavItem = styled(Link)`
   width: 84px;
@@ -56,5 +54,4 @@ const NavItem = styled(Link)`
 const StyledNavText = styled.p`
   margin-top: 6px;
   font-size: 0.8rem;
-  font-family: 'GangwonEdu_OTFBoldA'
 `;
