@@ -94,18 +94,28 @@ const CalendarContent = styled.div`
 const DiaryContent = styled.div`
   margin-top: 23px;
   p{
-    font-size: 12px;
     margin: 8px;
-    line-height: 17px;
+    line-height: 22px;
+  }
+  @media screen and (max-width: 390px) {
+    p{
+      font-size: 12px;
+      line-height: 17px;
+    }
   }
 `
   
 const TodoContent = styled.div`
   margin-top: 23px;
   p{
-    font-size: 12px;
     margin: 8px;
-    line-height: 17px;
+    line-height: 22px;
+  }
+  @media screen and (max-width: 390px) {
+    p{
+      font-size: 12px;
+      line-height: 17px;
+    }
   }
 `
 
