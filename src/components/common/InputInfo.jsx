@@ -41,6 +41,6 @@ const StyledInputInfo = styled.div`
   p {
     color: var(--warning-color);
     font-size: 0.75rem;
-    margin: -1rem 0 1.5rem;
+    margin: 0.5rem 0 1.5rem;
   }
 `
