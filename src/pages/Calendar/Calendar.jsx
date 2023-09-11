@@ -1,4 +1,4 @@
-import Navigation from '../../components/Common/Navbar'
+import Navigation from '../../components/Common/Navbar';
 import MainHeader from '../../components/Header/MainHeader';
 import React, { useState } from 'react';
 import { format, addMonths, subMonths, startOfMonth, endOfMonth, getDay, getDate, isSameDay } from 'date-fns';

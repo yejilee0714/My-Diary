@@ -6,17 +6,12 @@ import uploadIcon from "../../assets/img/profile-add.svg"
 import { DisabledBtn, AbledBtn } from '../../components/Common/Button';
 
 import InputInfo from "../../components/Common/InputInfo";
-import fetchApi from "../../utils/fetchApi";
 import UserInfo from "../../contexts/LoginContext";
-import useDebounce from "../../hooks/useDebounce";
-import styled from "styled-components";
 import { useImage } from "../../hooks/useImage";
 
-const UserSelectDiv = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
-`;
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+import 'firebase/compat/firestore';
 
 export default function ProfileSettings({ email, password }) {
   const navigate = useNavigate();
@@ -33,63 +28,67 @@ export default function ProfileSettings({ email, password }) {
     [accountnameValid, setAccountnameValid] = useState(false),
     [accountnameError, setAccountnameError] = useState("");
 
-  const [prevAccount, setPrevAccount] = useState("");
+  // const [prevAccount, setPrevAccount] = useState("");
+  const [username, setUsername] = useState(""); 
+  const [intro, setIntro] = useState(""); 
 
   const isModify = location.pathname.includes("modify");
   const { userInfo, setUserInfo } = useContext(UserInfo);
-  const { output: accountValidResult, setKeyword: setAccountKeyword } = useDebounce(
-    "user/accountnamevalid",
-    JSON.stringify({
-      user: {
-        accountname: accountname,
-      },
-    })
-  );
+
   const [introduce, setIntroduce] = useState("");
   const splitString = "{[split]}";
 
   const modifyUserProfile = () => {
-    const data = {
-      user: {
-        username: name,
-        accountname: accountname,
-        intro: introduce,
-        image: image,
-      },
-    };
-    fetchApi("user", "PUT", JSON.stringify(data)).then((res) => {
-      const accountname = res.user.accountname,
-        image = res.user.image,
-        username = res.user.username,
-        intro = res.user.intro;
+    // Firebase Firestore를 사용하여 프로필 정보 업데이트
+    const db = firebase.firestore();
+    const userRef = db.collection("users").doc(userInfo?.uid);
 
-      setUserInfo((prev) => {
-        return { ...prev, accountname, image, username, intro };
+    userRef.set({
+      username: name,
+      accountname: accountname,
+      intro: introduce,
+      image: image,
+    }, { merge: true })
+      .then(() => {
+        setUserInfo((prev) => {
+          return { ...prev, accountname, image, username: name, intro: introduce };
+        });
+        localStorage.setItem("userInfo", JSON.stringify(userInfo));
+        navigate(`/profile/${accountname}`);
+      })
+      .catch((error) => {
+        console.error("프로필 업데이트 중 오류 발생:", error);
       });
-      localStorage.setItem("userInfo", JSON.stringify(userInfo));
-      navigate(`/profile/${res.user.accountname}`);
-    });
   };
 
+  // 사용자 이름 유효성 검사
   useEffect(() => {
     if (isModify) {
       try {
-        fetchApi("user/myinfo", "GET").then((res) => {
-          const introduce = res.user.intro.split(splitString)[0];
-
-          setAccountname(res.user.accountname);
-          setName(res.user.username);
-          setIntroduce(introduce);
-          setImage(res.user.image);
-          setPrevAccount(res.user.accountname);
+        // Firebase Firestore를 사용하여 프로필 정보 가져오기
+        const db = firebase.firestore();
+        const userRef = db.collection("users").doc(userInfo?.uid);
+  
+        userRef.get().then((doc) => {
+          if (doc.exists) {
+            const data = doc.data();
+            const introduce = data.intro.split(splitString)[0];
+  
+            setAccountname(data.accountname);
+            setUsername(data.username);
+            setIntro(introduce);
+            setImage(data.image);
+            // setPrevAccount(data.accountname);
+          }
+        }).catch((error) => {
+          console.error("사용자 정보를 불러오는 중 오류 발생:", error);
         });
       } catch (error) {
         console.error("사용자 정보를 불러오는 중 오류 발생:", error);
       }
     }
-  }, [isModify, setImage]);
+  }, [isModify, setImage, userInfo?.uid]);
 
-  // 사용자 이름 유효성 검사
   const handleNameInput = (event) => {
     const valueName = event.target.value;
     if (valueName.length >= 2 && valueName.length <= 10) {
@@ -103,56 +102,78 @@ export default function ProfileSettings({ email, password }) {
   };
 
   useEffect(() => {
-    setAccountKeyword(accountname);
     if (!accountname) {
       setAccountnameValid(false);
       setAccountnameError("");
       return;
     }
 
-    if (prevAccount === accountname) {
-      setAccountnameError("");
-      setAccountnameValid(true);
-      return;
-    }
+    // if (prevAccount === accountname) {
+    //   setAccountnameError("");
+    //   setAccountnameValid(true);
+    //   return;
+    // }
+    
     const pattern = /^[A-Za-z0-9._]+$/;
     if (accountname && pattern.test(accountname)) {
-      switch (accountValidResult.message) {
-        case "사용 가능한 계정ID 입니다.":
+      // switch (accountValidResult.message) {
+      //   case "사용 가능한 계정ID 입니다.":
+      //     setAccountnameValid(true);
+      //     setAccountnameError("");
+      //     break;
+      //   default:
+      //     setAccountnameValid(false);
+      //     setAccountnameError(accountValidResult.message);
+      //     break;
+      // }
+      // Firebase Firestore를 사용하여 계정 이름 유효성 검사
+      const db = firebase.firestore();
+      const usersRef = db.collection("users");
+      const query = usersRef.where("accountName", "==", accountname);
+
+      query.get().then((querySnapshot) => {
+        if (querySnapshot.empty) {
           setAccountnameValid(true);
           setAccountnameError("");
-          break;
-        default:
+        } else {
           setAccountnameValid(false);
-          setAccountnameError(accountValidResult.message);
-          break;
-      }
+          setAccountnameError("이미 사용 중인 계정 ID입니다.");
+        }
+      }).catch((error) => {
+        console.error("계정 이름 유효성 검사 중 오류 발생:", error);
+      });
     } else {
       setAccountnameValid(false);
       setAccountnameError("영문, 숫자, 특수문자(.),(_)만 사용 가능합니다");
     }
-  }, [accountname, setAccountKeyword, accountValidResult, prevAccount]);
+  }, [accountname]);
+  // [accountname, prevAccount]);
 
   const handleForm = async (e) => {
     e.preventDefault();
     if (nameValid && accountnameValid) {
-      const userData = {
-        user: {
-          email: email,
-          password: password,
-          image: image,
-          username: name,
-          accountname: accountname,
-          intro: introduce,
-        },
-      };
+      if (isModify) {
+        modifyUserProfile();
+      } else {
+        // Firebase Firestore를 사용하여 프로필 정보 생성
+        const db = firebase.firestore();
+        const userRef = db.collection("users").doc(userInfo?.uid);
 
-      try {
-        await fetchApi("user", "POST", JSON.stringify(userData)); // fetch 호출을 fetchApi로 대체합니다.
-      } catch (error) {
-        console.error("가입 중 오류 발생:", error);
-      } // 이미지 업로드 및 회원가입 API 요청
-      navigate("/login");
+        userRef.set({
+          userEmail: email,
+          userPassword: password,
+          userName: name,
+          accountName: accountname,
+          intro: introduce,
+          image: image,
+        })
+          .then(() => {
+            navigate("/login");
+          })
+          .catch((error) => {
+            console.error("프로필 정보 생성 중 오류 발생:", error);
+          });
+      }
     }
   };
 
@@ -200,10 +221,10 @@ export default function ProfileSettings({ email, password }) {
           </InputInfo>
         </EditForm>
         {(nameValid && accountnameValid && !isModify) ? (
-  <AbledBtn contents="월간스토리 시작하기" type="submit" onClick={handleForm} />
-) : (
-  <DisabledBtn contents="월간스토리 시작하기" type="submit" onClick={handleForm} />
-)}
+          <AbledBtn contents="월간스토리 시작하기" type="submit" onClick={handleForm} />
+        ) : (
+          <DisabledBtn contents="월간스토리 시작하기" type="submit" onClick={handleForm} />
+        )}
 
       </ProfileSettingForm>
     </>
