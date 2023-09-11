@@ -12,7 +12,6 @@ export default function InputInfo( {type, id, onChange, value, warningMsg, place
 }
 
 const StyledInputInfo = styled.div`
-  margin-bottom: 16px;
   font-family: 'Pretendard-Regular';
 
   input{

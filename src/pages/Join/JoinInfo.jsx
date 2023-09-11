@@ -8,7 +8,6 @@ import { DisabledBtn, AbledBtn } from '../../components/Common/Button';
 import InputInfo from "../../components/Common/InputInfo";
 import UserInfo from "../../contexts/LoginContext";
 import { useImage } from "../../hooks/useImage";
-// import firebase from '../../firebase/firebase'; 
 
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
@@ -29,45 +28,15 @@ export default function ProfileSettings({ email, password }) {
     [accountnameValid, setAccountnameValid] = useState(false),
     [accountnameError, setAccountnameError] = useState("");
 
-  const [prevAccount, setPrevAccount] = useState("");
+  // const [prevAccount, setPrevAccount] = useState("");
   const [username, setUsername] = useState(""); 
   const [intro, setIntro] = useState(""); 
 
   const isModify = location.pathname.includes("modify");
   const { userInfo, setUserInfo } = useContext(UserInfo);
-  // const { output: accountValidResult, setKeyword: setAccountKeyword } = useDebounce(
-  //   "user/accountnamevalid",
-  //   JSON.stringify({
-  //     user: {
-  //       accountname: accountname,
-  //     },
-  //   })
-  // );
+
   const [introduce, setIntroduce] = useState("");
   const splitString = "{[split]}";
-
-  // const modifyUserProfile = () => {
-  //   const data = {
-  //     user: {
-  //       username: name,
-  //       accountname: accountname,
-  //       intro: introduce,
-  //       image: image,
-  //     },
-  //   };
-  //   fetchApi("user", "PUT", JSON.stringify(data)).then((res) => {
-  //     const accountname = res.user.accountname,
-  //       image = res.user.image,
-  //       username = res.user.username,
-  //       intro = res.user.intro;
-
-  //     setUserInfo((prev) => {
-  //       return { ...prev, accountname, image, username, intro };
-  //     });
-  //     localStorage.setItem("userInfo", JSON.stringify(userInfo));
-  //     navigate(`/profile/${res.user.accountname}`);
-  //   });
-  // };
 
   const modifyUserProfile = () => {
     // Firebase Firestore를 사용하여 프로필 정보 업데이트
@@ -92,26 +61,7 @@ export default function ProfileSettings({ email, password }) {
       });
   };
 
-  // useEffect(() => {
-  //   if (isModify) {
-  //     try {
-  //       fetchApi("user/myinfo", "GET").then((res) => {
-  //         const introduce = res.user.intro.split(splitString)[0];
-
-  //         setAccountname(res.user.accountname);
-  //         setName(res.user.username);
-  //         setIntroduce(introduce);
-  //         setImage(res.user.image);
-  //         setPrevAccount(res.user.accountname);
-  //       });
-  //     } catch (error) {
-  //       console.error("사용자 정보를 불러오는 중 오류 발생:", error);
-  //     }
-  //   }
-  // }, [isModify, setImage]);
-
   // 사용자 이름 유효성 검사
-  
   useEffect(() => {
     if (isModify) {
       try {
@@ -128,7 +78,7 @@ export default function ProfileSettings({ email, password }) {
             setUsername(data.username);
             setIntro(introduce);
             setImage(data.image);
-            setPrevAccount(data.accountname);
+            // setPrevAccount(data.accountname);
           }
         }).catch((error) => {
           console.error("사용자 정보를 불러오는 중 오류 발생:", error);
@@ -152,18 +102,17 @@ export default function ProfileSettings({ email, password }) {
   };
 
   useEffect(() => {
-    // setAccountKeyword(accountname);
     if (!accountname) {
       setAccountnameValid(false);
       setAccountnameError("");
       return;
     }
 
-    if (prevAccount === accountname) {
-      setAccountnameError("");
-      setAccountnameValid(true);
-      return;
-    }
+    // if (prevAccount === accountname) {
+    //   setAccountnameError("");
+    //   setAccountnameValid(true);
+    //   return;
+    // }
     
     const pattern = /^[A-Za-z0-9._]+$/;
     if (accountname && pattern.test(accountname)) {
@@ -180,7 +129,7 @@ export default function ProfileSettings({ email, password }) {
       // Firebase Firestore를 사용하여 계정 이름 유효성 검사
       const db = firebase.firestore();
       const usersRef = db.collection("users");
-      const query = usersRef.where("accountname", "==", accountname);
+      const query = usersRef.where("accountName", "==", accountname);
 
       query.get().then((querySnapshot) => {
         if (querySnapshot.empty) {
@@ -197,29 +146,12 @@ export default function ProfileSettings({ email, password }) {
       setAccountnameValid(false);
       setAccountnameError("영문, 숫자, 특수문자(.),(_)만 사용 가능합니다");
     }
-  }, [accountname, prevAccount]);
+  }, [accountname]);
+  // [accountname, prevAccount]);
 
   const handleForm = async (e) => {
     e.preventDefault();
     if (nameValid && accountnameValid) {
-    //   const userData = {
-    //     user: {
-    //       email: email,
-    //       password: password,
-    //       image: image,
-    //       username: name,
-    //       accountname: accountname,
-    //       intro: introduce,
-    //     },
-    //   };
-
-    //   try {
-    //     await fetchApi("user", "POST", JSON.stringify(userData)); // fetch 호출을 fetchApi로 대체합니다.
-    //   } catch (error) {
-    //     console.error("가입 중 오류 발생:", error);
-    //   } // 이미지 업로드 및 회원가입 API 요청
-    //   navigate("/login");
-    // }
       if (isModify) {
         modifyUserProfile();
       } else {
@@ -228,10 +160,10 @@ export default function ProfileSettings({ email, password }) {
         const userRef = db.collection("users").doc(userInfo?.uid);
 
         userRef.set({
-          email: email,
-          password: password,
-          username: name,
-          accountname: accountname,
+          userEmail: email,
+          userPassword: password,
+          userName: name,
+          accountName: accountname,
           intro: introduce,
           image: image,
         })
@@ -289,10 +221,10 @@ export default function ProfileSettings({ email, password }) {
           </InputInfo>
         </EditForm>
         {(nameValid && accountnameValid && !isModify) ? (
-  <AbledBtn contents="월간스토리 시작하기" type="submit" onClick={handleForm} />
-) : (
-  <DisabledBtn contents="월간스토리 시작하기" type="submit" onClick={handleForm} />
-)}
+          <AbledBtn contents="월간스토리 시작하기" type="submit" onClick={handleForm} />
+        ) : (
+          <DisabledBtn contents="월간스토리 시작하기" type="submit" onClick={handleForm} />
+        )}
 
       </ProfileSettingForm>
     </>

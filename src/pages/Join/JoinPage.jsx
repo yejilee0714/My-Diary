@@ -8,10 +8,6 @@ export default function SignUp() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-    useEffect(() => {
-        console.log(page)
-    }, [page]); 
-
   return (
     <>
       {page === 'JoinEmailForm' ? (
