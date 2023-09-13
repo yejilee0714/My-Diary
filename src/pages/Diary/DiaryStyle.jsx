@@ -27,6 +27,10 @@ const DiaryContainer = styled.div`
         line-height: 17px;
       }
     }
+
+    .diaryPlaceHolder{
+      color: var(--gray300-color);
+    }
   }
 
   .btnGroup {
@@ -41,6 +45,7 @@ const H1 = styled.h1`
 
 const TextArea = styled.textarea`
   font-family: 'GangwonEdu_OTFBoldA';
+  font-size: 1rem;
   width: 95%;
   padding: 8px;
   margin-top: 8px;
