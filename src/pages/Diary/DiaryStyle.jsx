@@ -41,8 +41,9 @@ const H1 = styled.h1`
 
 const TextArea = styled.textarea`
   font-family: 'GangwonEdu_OTFBoldA';
-  width: 96%;
+  width: 95%;
   padding: 8px;
+  margin-top: 8px;
   resize: none;
   overflow-y: hidden;
   height: ${props => props.isEditing ? 'auto' : '100px'};
