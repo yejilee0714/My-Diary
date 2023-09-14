@@ -31,6 +31,7 @@ export default function ProfileSettings({ email, password }) {
   // const [prevAccount, setPrevAccount] = useState("");
   const [username, setUsername] = useState(""); 
   const [intro, setIntro] = useState(""); 
+  const [userId, setUserId] = useState("");
 
   const isModify = location.pathname.includes("modify");
   const { userInfo, setUserInfo } = useContext(UserInfo);
@@ -74,6 +75,7 @@ export default function ProfileSettings({ email, password }) {
             const data = doc.data();
             const introduce = data.intro.split(splitString)[0];
   
+            setUserId(data.userId);
             setAccountname(data.accountname);
             setUsername(data.username);
             setIntro(introduce);
@@ -160,6 +162,7 @@ export default function ProfileSettings({ email, password }) {
         const userRef = db.collection("users").doc(userInfo?.uid);
 
         userRef.set({
+          userId: userRef.id,
           userEmail: email,
           userPassword: password,
           userName: name,

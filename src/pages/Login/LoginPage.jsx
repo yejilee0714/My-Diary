@@ -64,12 +64,18 @@ export default function LoginPage(){
       const querySnapshot = await db.collection('users').where('userEmail', '==', userEmail).get();
       if (!querySnapshot.empty) {
         const userDoc = querySnapshot.docs[0].data();
-
+        const userId = querySnapshot.docs[0].id;
+        
         // userPassword가 일치하는지 확인
         if (userDoc.userPassword === userPassword) {
           // 비밀번호 일치하면 로그인
           setUserInfo(userDoc);
-          localStorage.setItem('userInfo', JSON.stringify(userDoc));
+          localStorage.setItem('userId', JSON.stringify(userId));
+          localStorage.setItem('accountName', JSON.stringify(userDoc.accountName));
+          localStorage.setItem('image', JSON.stringify(userDoc.image));
+          localStorage.setItem('intro', JSON.stringify(userDoc.intro));
+          localStorage.setItem('userEmail', JSON.stringify(userDoc.userEmail));
+          localStorage.setItem('userName', JSON.stringify(userDoc.userName));
           navigate('/calendar');
         } else {
           setWarningMessage("비밀번호가 일치하지 않습니다.");
