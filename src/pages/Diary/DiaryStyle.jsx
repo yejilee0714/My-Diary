@@ -58,6 +58,10 @@ const TextArea = styled.textarea`
   ${props => props.isEditing && css`
     height: ${props => props.scrollHeight}px;
   `}
+
+  @media screen and (max-width: 390px){
+    width: 91%;
+  }
 `
 
 const ImagePreview = styled.img`
