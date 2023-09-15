@@ -37,6 +37,7 @@ export const ImgUploadBtn = styled.button`
   width: 110px;
   height: 110px;
   margin: 0;
+  padding: 0;
   position: relative;
 `;
 

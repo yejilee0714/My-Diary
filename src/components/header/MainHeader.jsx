@@ -1,11 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components'
-import { ReactComponent as IconProfile } from '../../assets/img/profile-main.svg'
 import moreicon from '../../assets/icon/more.svg'
 import Modal from '../Modal/Modal'
 
 export default function MainHeader(){
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [profileImage, setProfileImage] = useState("");
+
+  useEffect(() => {
+    const storedProfileImage = localStorage.getItem('image');
+    if (storedProfileImage) {
+      setProfileImage(JSON.parse(storedProfileImage));
+    }
+  }, []);
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -18,12 +25,12 @@ export default function MainHeader(){
   return(
     <>
       <BasicHeaderStyle>
-        <IconProfile style={{ cursor:'pointer', height: '100%'}}/>
-        {/* <IconMore style={{ cursor:'pointer', height: '100%'}}/> */}
+        <ProfileImage>
+          <ImgBtn style={{ backgroundImage: `url(${profileImage})`, backgroundSize: 'cover' }} />
+        </ProfileImage>
         <IconMore >
           <button onClick={openModal}></button>
         </IconMore>
-        {/* 모달 */}
       </BasicHeaderStyle>
       {isModalOpen && <Modal closeModal={closeModal} />}
     </>
@@ -32,7 +39,7 @@ export default function MainHeader(){
 
 const BasicHeaderStyle = styled.div`
   width: 100%;
-  height: 66px;
+  height: 80px;
   position: fixed;
   top: 0;
   display: flex;
@@ -42,6 +49,24 @@ const BasicHeaderStyle = styled.div`
   background-color: var(--main-color);
   z-index: 1;
 `
+
+const ProfileImage = styled.div`
+  width: 80px;
+  height: 100%;
+  margin: 0;
+  position: relative;
+  margin-left: 10px;
+`;
+
+export const ImgBtn = styled.button`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  object-fit: cover;
+  border-radius: 50%;
+`;
 
 const IconMore = styled.div`
   button {
