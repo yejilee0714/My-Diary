@@ -49,8 +49,12 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
   }
+
   button{
-    all: unset;
+    background: none;
+    border: none;
+    font-family: inherit;
+    font-size: inherit;
     cursor: pointer;
   }
   ul, li{
