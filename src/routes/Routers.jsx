@@ -5,6 +5,7 @@ import IntroLoginPage from "../pages/Login/IntroLoginPage"
 import UserInfo from "../contexts/LoginContext";
 import LoginPage from "../pages/Login/LoginPage";
 import SignUp from "../pages/Join/JoinPage";
+import ProfileSettings from "../pages/Join/JoinInfo";
 import Calendar from "../pages/Calendar/Calendar"
 import Diary from "../pages/Diary/Diary";
 import TodoList from "../pages/Todo/TodoList";
@@ -29,29 +30,15 @@ const Providers = ({ children }) => {
 export default function Routers() {
   return (
     <Providers>
-      {/* <Routes>
-        <Modal /> */}
-          <Routes>
-            <Route path="/" element={<IntroLoginPage />} />
-            <Route path="/login" element={<LoginPage />}/>
-            <Route path="/join" element={<SignUp />} />
-            <Route path="/calendar" element={<Calendar />}/>
-            <Route path="/diary" element={<Diary />}/>
-            <Route path="/todo-list" element={<TodoList />}/>
-          </Routes>
-        {/* <Modal /> */}
-        {/* <AlertModal
-            submitText="로그아웃"
-            // onSubmit={() => {
-            //   logoutHandler();
-            //   setModalOpen(false);
-            // }}
-            // onCancel={() => setModalOpen(false)}
-          >
-            로그아웃하시겠어요?
-          </AlertModal> */}
-      {/* </Routes> */}
-
+      <Routes>
+        <Route path="/" element={<IntroLoginPage />} />
+        <Route path="/login" element={<LoginPage />}/>
+        <Route path="/join" element={<SignUp />} />
+        <Route path="/join/modify" element={<ProfileSettings />} />
+        <Route path="/calendar" element={<Calendar />}/>
+        <Route path="/diary" element={<Diary />}/>
+        <Route path="/todo-list" element={<TodoList />}/>
+      </Routes>
     </Providers>
   );
 }

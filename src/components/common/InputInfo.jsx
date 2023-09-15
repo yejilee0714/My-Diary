@@ -42,4 +42,8 @@ const StyledInputInfo = styled.div`
     font-size: 0.75rem;
     margin: 0.5rem 0 1.5rem;
   }
+
+  span{
+    color: var(--warning-color);
+  }
 `
