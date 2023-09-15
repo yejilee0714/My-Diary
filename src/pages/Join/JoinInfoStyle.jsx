@@ -21,8 +21,7 @@ export const ProfileTitle = styled.h1`
 
 export const ProfileInfo = styled.section`
   margin-top: 12px;
-  color: var(--gray-color);
-  font-size: var(--font-md-size);
+  color: var(--gray300-color);
 `;
 
 export const Img = styled.img`
@@ -56,6 +55,25 @@ export const EditForm = styled.div`
   flex-direction: column;
   width: 100%;
   margin: 30px 0px 14px;
+
+  .modifyUserId{
+    margin-bottom: 50px;
+
+    label{
+      font-size: 0.75rem;
+      color: var(--gray400-color);
+      font-weight: bold;
+    }
+
+    p{
+      width: 100%;
+      padding-bottom: 9px;
+      margin-top: 10px;
+      font-size: 14px;
+      font-weight: 700;
+      border-bottom: 1px solid var(--gray50-color);
+    }
+  }
 `;
 
 export const Label = styled.label`

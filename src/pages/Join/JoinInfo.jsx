@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import { ProfileInfo, ProfileIntro, ImgUploadBtn, UploadInput, EditForm, Label, Img, ImgIcon, ProfileSettingForm, ProfileTitle, ErrorMsg } from "./JoinInfoStyle";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import basicProfileImage from "../../assets/img/profile-main.svg";
 import uploadIcon from "../../assets/img/profile-add.svg"
 import { DisabledBtn, AbledBtn } from '../../components/Common/Button';
@@ -15,72 +15,71 @@ import 'firebase/compat/firestore';
 
 export default function ProfileSettings({ email, password }) {
   const navigate = useNavigate();
-  const location = useLocation();
   const uploadInput = useRef(null);
 
   const { image, setImage, inputImageHandler } = useImage(basicProfileImage);
 
   const [name, setName] = useState(""),
-    [nameValid, setNameValid] = useState(false),
+    [nameValid, setNameValid] = useState(true),
     [nameError, setNameError] = useState("");
 
   const [accountname, setAccountname] = useState(""),
-    [accountnameValid, setAccountnameValid] = useState(false),
+    [accountnameValid, setAccountnameValid] = useState(true),
     [accountnameError, setAccountnameError] = useState("");
 
-  // const [prevAccount, setPrevAccount] = useState("");
-  const [username, setUsername] = useState(""); 
-  const [intro, setIntro] = useState(""); 
   const [userId, setUserId] = useState("");
 
-  const isModify = location.pathname.includes("modify");
+  const userID = JSON.parse(localStorage.getItem('userId'));
+  const isModify = !!userID;
   const { userInfo, setUserInfo } = useContext(UserInfo);
 
-  const [introduce, setIntroduce] = useState("");
-  const splitString = "{[split]}";
+  const [introduce, setIntroduce] = useState(userInfo?.intro || "");
+
 
   const modifyUserProfile = () => {
     // Firebase Firestore를 사용하여 프로필 정보 업데이트
     const db = firebase.firestore();
-    const userRef = db.collection("users").doc(userInfo?.uid);
+    const userRef = db.collection("users").doc(userID);
 
-    userRef.set({
-      username: name,
-      accountname: accountname,
+    const updatedProfile = {
+      userName: name,
       intro: introduce,
       image: image,
-    }, { merge: true })
-      .then(() => {
-        setUserInfo((prev) => {
-          return { ...prev, accountname, image, username: name, intro: introduce };
+    };
+  
+    if (isModify) {
+      userRef
+        .update(updatedProfile)
+        .then(() => {
+          localStorage.setItem('userName', JSON.stringify(updatedProfile.userName));
+          localStorage.setItem('intro', JSON.stringify(updatedProfile.intro));
+          localStorage.setItem('image', JSON.stringify(updatedProfile.image));
+  
+          navigate(`/calendar`);
+          console.log("프로필 업데이트 성공");
+        })
+        .catch((error) => {
+          console.error("프로필 업데이트 중 오류 발생:", error);
         });
-        localStorage.setItem("userInfo", JSON.stringify(userInfo));
-        navigate(`/profile/${accountname}`);
-      })
-      .catch((error) => {
-        console.error("프로필 업데이트 중 오류 발생:", error);
-      });
+    }
   };
 
-  // 사용자 이름 유효성 검사
   useEffect(() => {
     if (isModify) {
       try {
         // Firebase Firestore를 사용하여 프로필 정보 가져오기
         const db = firebase.firestore();
-        const userRef = db.collection("users").doc(userInfo?.uid);
-  
+        const userRef = db.collection('users').doc(userID);
+
         userRef.get().then((doc) => {
           if (doc.exists) {
             const data = doc.data();
-            const introduce = data.intro.split(splitString)[0];
-  
+              
             setUserId(data.userId);
-            setAccountname(data.accountname);
-            setUsername(data.username);
-            setIntro(introduce);
+            setAccountname(data.accountName);
+            setName(data.userName);
+            setIntroduce(data.intro);
             setImage(data.image);
-            // setPrevAccount(data.accountname);
           }
         }).catch((error) => {
           console.error("사용자 정보를 불러오는 중 오류 발생:", error);
@@ -89,8 +88,9 @@ export default function ProfileSettings({ email, password }) {
         console.error("사용자 정보를 불러오는 중 오류 발생:", error);
       }
     }
-  }, [isModify, setImage, userInfo?.uid]);
+  }, [isModify, userId, setImage, userInfo?.uid]);
 
+  // 사용자 유효성 검사
   const handleNameInput = (event) => {
     const valueName = event.target.value;
     if (valueName.length >= 2 && valueName.length <= 10) {
@@ -109,25 +109,9 @@ export default function ProfileSettings({ email, password }) {
       setAccountnameError("");
       return;
     }
-
-    // if (prevAccount === accountname) {
-    //   setAccountnameError("");
-    //   setAccountnameValid(true);
-    //   return;
-    // }
     
     const pattern = /^[A-Za-z0-9._]+$/;
     if (accountname && pattern.test(accountname)) {
-      // switch (accountValidResult.message) {
-      //   case "사용 가능한 계정ID 입니다.":
-      //     setAccountnameValid(true);
-      //     setAccountnameError("");
-      //     break;
-      //   default:
-      //     setAccountnameValid(false);
-      //     setAccountnameError(accountValidResult.message);
-      //     break;
-      // }
       // Firebase Firestore를 사용하여 계정 이름 유효성 검사
       const db = firebase.firestore();
       const usersRef = db.collection("users");
@@ -149,14 +133,14 @@ export default function ProfileSettings({ email, password }) {
       setAccountnameError("영문, 숫자, 특수문자(.),(_)만 사용 가능합니다");
     }
   }, [accountname]);
-  // [accountname, prevAccount]);
 
   const handleForm = async (e) => {
     e.preventDefault();
-    if (nameValid && accountnameValid) {
+    if (nameValid) {
       if (isModify) {
         modifyUserProfile();
-      } else {
+      } 
+      else if(accountnameValid) {
         // Firebase Firestore를 사용하여 프로필 정보 생성
         const db = firebase.firestore();
         const userRef = db.collection("users").doc(userInfo?.uid);
@@ -188,7 +172,7 @@ export default function ProfileSettings({ email, password }) {
     <>
       <ProfileSettingForm onSubmit={handleForm}>
         <ProfileIntro>
-          <ProfileTitle className={isModify && "a11y-hidden"}>{isModify ? "프로필 수정" : "프로필 설정"}</ProfileTitle>
+          <ProfileTitle>{isModify ? "프로필 수정" : "프로필 설정"}</ProfileTitle>
           {!isModify && <ProfileInfo>나중에 언제든지 변경할 수 있습니다.</ProfileInfo>}
         </ProfileIntro>
         <Label> 
@@ -204,26 +188,34 @@ export default function ProfileSettings({ email, password }) {
             사용자이름
           </InputInfo>
           <ErrorMsg>{nameError}</ErrorMsg>
-          <InputInfo
-            id="user-id"
-            type="text"
-            placeholder="영문, 숫자, 특수문자(.),(_)만 사용 가능합니다."
-            value={accountname}
-            valid={accountnameValid}
-            alertMsg={setAccountnameError}
-            onChange={(e) => {
-              setAccountname(e.target.value);
-            }}
-            required
-          >
-            계정 ID
-          </InputInfo>
-          <ErrorMsg>{accountnameError}</ErrorMsg>
+          {isModify ? (
+              <div className="modifyUserId"> 
+                <label htmlFor="userId">계정 ID</label>
+                <p>{accountname}</p>
+              </div>
+            ) : (
+            <>
+              <InputInfo
+              id="user-id"
+              type="text"
+              placeholder="영문, 숫자, 특수문자(.),(_)만 사용 가능합니다."
+              value={accountname}
+              valid={accountnameValid}
+              alertMsg={setAccountnameError}
+              onChange={(e) => {
+                setAccountname(e.target.value);
+              }}
+              required
+              > 계정 ID <span>( * 계정 변경은 불가합니다. )</span></InputInfo>
+              <ErrorMsg>{accountnameError}</ErrorMsg>
+            </>
+            )
+          }
           <InputInfo id="user-introduce" type="text" placeholder="나를 소개하는 글을 작성해주세요." value={introduce} onChange={(e) => setIntroduce(e.target.value)} required>
             소개
           </InputInfo>
         </EditForm>
-        {(nameValid && accountnameValid && !isModify) ? (
+        {(nameValid && isModify) ? (<AbledBtn contents="프로필 수정하기" type="submit" onClick={handleForm} />) :  (nameValid && accountnameValid && !isModify) ? (
           <AbledBtn contents="월간스토리 시작하기" type="submit" onClick={handleForm} />
         ) : (
           <DisabledBtn contents="월간스토리 시작하기" type="submit" onClick={handleForm} />

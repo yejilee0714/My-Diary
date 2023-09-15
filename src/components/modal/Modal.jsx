@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from "styled-components";
 import '../../style/font.css'
 
@@ -7,27 +7,28 @@ import { useNavigate } from 'react-router-dom';
 export default function Modal({closeModal }){
   const navigate = useNavigate();
 
+  const handleProfileEdit = () => {
+    navigate('/join/modify');
+    closeModal();
+  };
+
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate('/');
+  };
+
   return (
     <ModalStyle>
       <ul >
         <div className='bar'></div>
         <li>
-            <button type='button' onClick={(e) => {
-              navigate('/profile');
-            }}
-            > 프로필 수정
-            </button>
+            <button type='button' onClick={handleProfileEdit}> 프로필 수정</button>
           </li>
           <li>
-            <button type='button' onClick={(e) => {
-                navigate('/');
-              }}
-            > 로그아웃
-            </button>
+            <button type='button' onClick={handleLogout}> 로그아웃</button>
           </li>
           <li>
-            <button type='button' onClick={closeModal}> 취소
-            </button>
+            <button type='button' onClick={closeModal}> 취소</button>
           </li>
         </ul>
       </ModalStyle>
