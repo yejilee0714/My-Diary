@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components'
+import { useNavigate } from 'react-router-dom';
 import moreicon from '../../assets/icon/more.svg'
 import Modal from '../Modal/Modal'
 
 export default function MainHeader(){
+  const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [profileImage, setProfileImage] = useState("");
 
@@ -22,11 +24,15 @@ export default function MainHeader(){
     setIsModalOpen(false);
   };
 
+  const handleImgBtnClick = () => {
+    navigate('/join/modify');
+  };
+
   return(
     <>
       <BasicHeaderStyle>
         <ProfileImage>
-          <ImgBtn style={{ backgroundImage: `url(${profileImage})`, backgroundSize: 'cover' }} />
+          <ImgBtn style={{ backgroundImage: `url(${profileImage})`, backgroundSize: 'cover' }} onClick={handleImgBtnClick} />
         </ProfileImage>
         <IconMore >
           <button onClick={openModal}></button>
