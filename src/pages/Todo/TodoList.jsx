@@ -1,6 +1,6 @@
 import Navigation from '../../components/Common/Navbar'
 import MainHeader from '../../components/Header/MainHeader'
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import { TodoContainer, H1, TodoBox, ListContainer } from './TodoListStyle'
@@ -103,7 +103,30 @@ export default function TodoList(){
     });
   };
 
-  // Function to handle marking a task as completed
+  const handleDeleteTodo = (index) => {
+    const updatedTodos = [...todos];
+    updatedTodos.splice(index, 1); // 선택한 할 일을 배열에서 제거
+  
+    const updatedCompletedTasks = [...completedTasks];
+    updatedCompletedTasks.splice(index, 1);
+  
+    // 상태 업데이트
+    setTodos(updatedTodos);
+    setCompletedTasks(updatedCompletedTasks);
+  
+    // Firestore에 업데이트된 할 일 목록을 저장
+    userDocRef.collection('todos').doc(todoId).set({
+      text: updatedTodos,
+      completedTasks: updatedCompletedTasks,
+    })
+    .then(() => {
+      console.log('할 일이 성공적으로 삭제되었습니다.');
+    })
+    .catch((error) => {
+      console.error('할 일 삭제 중 오류 발생:', error);
+    });
+  };
+
   const handleTaskCompletion = (index) => {
     const updatedCompletedTasks = [...completedTasks];
 
@@ -142,7 +165,10 @@ export default function TodoList(){
               <ListContainer>
                 <ul>
                   {todos.map((todo, index) => (
-                    <li key={index}>• {todo}</li>
+                    <li key={index} className='modifyTodoList'>
+                      <span>• {todo}</span>
+                      <button onClick={() => handleDeleteTodo(index)}>삭제</button>
+                    </li>
                   ))}
                 </ul>
               </ListContainer>
@@ -155,7 +181,6 @@ export default function TodoList(){
                   <ul>
                     {todos.map((todo, index) => (
                       <li key={index}>
-                        {/* Checkbox for task completion */}
                         <input
                           type="checkbox"
                           checked={completedTasks[index]}

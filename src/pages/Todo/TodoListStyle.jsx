@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import '../../style/font.css'
 
 const TodoContainer = styled.div`
@@ -14,6 +14,7 @@ const TodoContainer = styled.div`
     -webkit-box-orient: vertical;
     background-color: var(--white-color);
     border-radius: 15px;
+    margin-top: 11px;
   }
 
   .btnGroup {
@@ -28,7 +29,6 @@ const H1 = styled.h1`
 const TodoBox = styled.div`
   background-color: var(--white-color);
   border-radius: 15px;
-  margin-top: 11px;
   display: flex;
   flex-direction: row;
 
@@ -53,6 +53,8 @@ const TodoBox = styled.div`
 
   .todoPlaceHolder{
       color: var(--gray300-color);
+      margin: 8px;
+      line-height: 22px;
     }
 `
 
@@ -61,8 +63,14 @@ const ListContainer = styled.div`
   ul {
     display: flex;
     flex-direction: column;
+    
     li {
       padding: 5px;
+    }
+
+    .modifyTodoList{
+      display: flex;
+      justify-content: space-between;
     }
   }
 `
