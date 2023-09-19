@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { FiHeart } from 'react-icons/fi';
+import { FiHeart, FiCircle } from 'react-icons/fi';
 import '../../style/font.css'
 
 const CalendarContainer = styled.div`
@@ -65,6 +65,14 @@ const CalendarDay = styled.div`
     `}
 `;
 
+const CircleIcon = styled(FiCircle)`
+  color: #ffffff18;
+  fill: #da23ff84;
+  position: absolute;
+  width: 100%;
+  height: 50px;
+  transform: translateY(-10%);
+`
 const HeartIcon = styled(FiHeart)`
   color: #ffffff18;
   fill: #da23ff84;
@@ -95,7 +103,7 @@ const DiaryContent = styled.div`
   margin-top: 23px;
   .diaryBox{
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
   }
   p{
     margin: 8px;
@@ -138,4 +146,4 @@ const TodoContent = styled.div`
   }
 `
 
-export { CalendarContainer, CalendarHeader, MonthControl , CalendarButton, CalendarTitle, CalendarGrid , CalendarDay , HeartIcon, CalendarContent, DiaryContent, ImagePreview, TodoContent};
+export { CalendarContainer, CalendarHeader, MonthControl , CalendarButton, CalendarTitle, CalendarGrid , CalendarDay , CircleIcon , HeartIcon, CalendarContent, DiaryContent, ImagePreview, TodoContent};

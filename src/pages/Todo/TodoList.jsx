@@ -129,17 +129,16 @@ export default function TodoList(){
 
   const handleTaskCompletion = (index) => {
     const updatedCompletedTasks = [...completedTasks];
-
     updatedCompletedTasks[index] = !updatedCompletedTasks[index];
-    setCompletedTasks(updatedCompletedTasks);
-
+    
     userDocRef.collection('todos').doc(todoId).update({ completedTasks: updatedCompletedTasks })
-      .then(() => {
-        console.log('투두 완료 상태가 업데이트되었습니다.');
-      })
-      .catch((error) => {
-        console.error('투두 완료 상태 업데이트 중 오류 발생:', error);
-      });
+    .then(() => {
+      console.log('투두 완료 상태가 업데이트되었습니다.');
+    })
+    .catch((error) => {
+      console.error('투두 완료 상태 업데이트 중 오류 발생:', error);
+    });
+    setCompletedTasks(updatedCompletedTasks);
   };
 
   return (

@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect  } from 'react';
 import { format, addMonths, subMonths, startOfMonth, endOfMonth, getDay, getDate, isSameDay } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import { FiChevronUp, FiChevronDown } from 'react-icons/fi';
-import { CalendarContainer, CalendarHeader, MonthControl, CalendarButton, CalendarTitle, CalendarGrid , CalendarDay , HeartIcon, CalendarContent, DiaryContent, ImagePreview, TodoContent } from './CalendarStyle';
+import { CalendarContainer, CalendarHeader, MonthControl, CalendarButton, CalendarTitle, CalendarGrid , CalendarDay , CircleIcon , HeartIcon, CalendarContent, DiaryContent, ImagePreview, TodoContent } from './CalendarStyle';
 
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
@@ -13,6 +13,7 @@ import { useImage } from '../../hooks/useImage';
 
 function Calendar() {
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(null);
 
   // 일기 정보 가져오는 useState
   const [diaryText, setDiaryText] = useState("");
@@ -88,6 +89,52 @@ function Calendar() {
   const todayDay = format(new Date(), 'd');
   const todayWeekday = format(new Date(), 'E', { locale: ko });
 
+  // 날짜 선택하기
+  const handleDayClick = (day) => {
+    const selectedDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
+    setSelectedDate(selectedDate); // 선택한 날짜 설정
+    const selectedDiaryId = format(selectedDate, 'yyyyMMdd');
+    const selectedTodoId = format(selectedDate, 'yyyyMMdd');
+  
+    // 선택한 날짜의 일기 가져오기
+    userDocRef
+      .collection('diaries')
+      .doc(selectedDiaryId)
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          const data = doc.data();
+          setDiaryText(data.text || "");
+          setImage(data.image || null);
+        } else {
+          setDiaryText("");
+          setImage(null);
+        }
+      })
+      .catch((error) => {
+        console.error('일기 데이터를 가져오는 중 오류 발생:', error);
+      });
+  
+    // 선택한 날짜의 할 일 목록 가져오기
+    userDocRef
+      .collection('todos')
+      .doc(selectedTodoId)
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          const data = doc.data();
+          setTodos(data.text || []);
+          setCompletedTasks(data.completedTasks || []);
+        } else {
+          setTodos([]);
+          setCompletedTasks([]);
+        }
+      })
+      .catch((error) => {
+        console.error('투두 데이터를 가져오는 중 오류 발생:', error);
+      });
+  };
+
   // 컴포넌트가 마운트될 때 Firestore에서 데이터를 가져옴
   useEffect(() => {
     // Firestore에서 해당 일기 문서를 가져와서 diaryData 상태에 설정
@@ -122,22 +169,6 @@ function Calendar() {
     });
   }, []);
 
-  const handleTaskCompletion = (index) => {
-    const updatedCompletedTasks = [...completedTasks];
-
-    updatedCompletedTasks[index] = !updatedCompletedTasks[index];
-    setCompletedTasks(updatedCompletedTasks);
-
-    userDocRef.collection('todos').doc(todoId).update({ completedTasks: updatedCompletedTasks })
-      .then(() => {
-        console.log('투두 완료 상태가 업데이트되었습니다.');
-      })
-      .catch((error) => {
-        console.error('투두 완료 상태 업데이트 중 오류 발생:', error);
-      });
-  };
-
-
   return (
     <>
       <MainHeader />
@@ -166,16 +197,26 @@ function Calendar() {
               isSaturday={index % 7 === 6}
               isSunday={index % 7 === 0}
               isEmpty={day === null}
+              onClick={() => handleDayClick(day)}
             >
               {day}
-              {isToday(new Date(currentDate.getFullYear(), currentDate.getMonth(), day)) && (
-                <HeartIcon />
-              )}
+              {!isToday(new Date(currentDate.getFullYear(), currentDate.getMonth(), day)) && (selectedDate && isSameDay(new Date(currentDate.getFullYear(), currentDate.getMonth(), day), selectedDate) && (<CircleIcon/>))}
+              {isToday(new Date(currentDate.getFullYear(), currentDate.getMonth(), day)) && (<HeartIcon/>)}
             </CalendarDay>
           ))}
         </CalendarGrid>
         <CalendarContent>
-          <span>{todayMonth}월 {todayDay}일 {todayWeekday}요일</span>
+          <span>
+            {selectedDate ? (
+              <>
+                {format(selectedDate, 'M월 d일 E요일', { locale: ko })}
+              </>
+            ) : (
+              <>
+                {todayMonth}월 {todayDay}일 {todayWeekday}요일
+              </>
+            )}
+          </span>
           <DiaryContent>
             <span>오늘의 일기</span>
             <div className="diaryBox textBox">
@@ -188,12 +229,13 @@ function Calendar() {
               <ul>
                 {todos.map((todo, index) => (
                   <li key={index}>
-                    <input
-                      type="checkbox"
-                      checked={completedTasks[index]}
-                      onChange={() => handleTaskCompletion(index)}
-                    />
-                    {todo}
+                    <label>
+                      <input
+                        type="checkbox"
+                        checked={completedTasks[index]}
+                      />
+                      {todo}
+                    </label>
                   </li>
                 ))}
               </ul>
