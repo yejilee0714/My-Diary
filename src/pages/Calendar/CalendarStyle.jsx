@@ -93,6 +93,10 @@ const CalendarContent = styled.div`
 
 const DiaryContent = styled.div`
   margin-top: 23px;
+  .diaryBox{
+    display: flex;
+    justify-content: space-around;
+  }
   p{
     margin: 8px;
     line-height: 22px;
@@ -104,9 +108,24 @@ const DiaryContent = styled.div`
     }
   }
 `
+
+const ImagePreview = styled.img`
+  width: 98px;
+  padding: 10px 10px 10px 0px;
+`;
   
 const TodoContent = styled.div`
   margin-top: 23px;
+  .todoBox{
+    ul {
+      display: flex;
+      flex-direction: column;
+      padding: 5px;
+      li {
+        padding: 5px;
+      }
+    }
+  }
   p{
     margin: 8px;
     line-height: 22px;
@@ -119,5 +138,4 @@ const TodoContent = styled.div`
   }
 `
 
-
-export { CalendarContainer, CalendarHeader, MonthControl , CalendarButton, CalendarTitle, CalendarGrid , CalendarDay , HeartIcon, CalendarContent, DiaryContent, TodoContent};
+export { CalendarContainer, CalendarHeader, MonthControl , CalendarButton, CalendarTitle, CalendarGrid , CalendarDay , HeartIcon, CalendarContent, DiaryContent, ImagePreview, TodoContent};

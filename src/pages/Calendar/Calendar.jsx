@@ -1,13 +1,37 @@
 import Navigation from '../../components/Common/Navbar';
 import MainHeader from '../../components/Header/MainHeader';
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect  } from 'react';
 import { format, addMonths, subMonths, startOfMonth, endOfMonth, getDay, getDate, isSameDay } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import { FiChevronUp, FiChevronDown } from 'react-icons/fi';
-import { CalendarContainer, CalendarHeader, MonthControl, CalendarButton, CalendarTitle, CalendarGrid , CalendarDay , HeartIcon, CalendarContent, DiaryContent, TodoContent } from './CalendarStyle';
+import { CalendarContainer, CalendarHeader, MonthControl, CalendarButton, CalendarTitle, CalendarGrid , CalendarDay , HeartIcon, CalendarContent, DiaryContent, ImagePreview, TodoContent } from './CalendarStyle';
+
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/firestore';
+
+import { useImage } from '../../hooks/useImage';
 
 function Calendar() {
   const [currentDate, setCurrentDate] = useState(new Date());
+
+  // 일기 정보 가져오는 useState
+  const [diaryText, setDiaryText] = useState("");
+  const [isEditing, setIsEditing] = useState(false);
+  const [todos, setTodos] = useState([]);
+  const [inputText, setInputText] = useState('');
+  const [completedTasks, setCompletedTasks] = useState([]);
+
+  const db = firebase.firestore();
+
+  const { image, setImage, inputImageHandler } = useImage(null); // useImage 훅 사용
+
+  const today = new Date();
+  const diaryId = format(today, 'yyyyMMdd');
+  const todoId = format(today, 'yyyyMMdd');
+  const userID = JSON.parse(localStorage.getItem('userId'));
+  const userDocRef = db.collection('users').doc(userID);
+  const diaryDocRef = userDocRef.collection('diaries').doc(diaryId);
+  const todoDocRef = userDocRef.collection('todos').doc(todoId);
 
   // 이전 달로 이동
   const goToPreviousMonth = () => {
@@ -64,6 +88,56 @@ function Calendar() {
   const todayDay = format(new Date(), 'd');
   const todayWeekday = format(new Date(), 'E', { locale: ko });
 
+  // 컴포넌트가 마운트될 때 Firestore에서 데이터를 가져옴
+  useEffect(() => {
+    // Firestore에서 해당 일기 문서를 가져와서 diaryData 상태에 설정
+    diaryDocRef.get().then((doc) => {
+      if (doc.exists) {
+        const data = doc.data();
+        setDiaryText(data.text || "");
+        setImage(data.image || null);
+      } else {
+        console.log('해당 일기 문서를 찾을 수 없습니다.');
+      }
+    }).catch((error) => {
+      console.error('일기 데이터를 가져오는 중 오류 발생:', error);
+    });
+  }, []);
+
+  useEffect(() => {
+    // Firestore에서 해당 일기 문서를 가져와서 todoData 상태에 설정
+    todoDocRef.get().then((doc) => {
+      if (doc.exists) {
+        const data = doc.data();
+        setTodos(data.text || "");
+        setCompletedTasks(data.completedTasks || []);
+      } else {
+        console.log('해당 투두 리스트 문서를 찾을 수 없습니다.');
+        // If the document doesn't exist, set todos to an empty array or any default value
+        setTodos([]);
+        setCompletedTasks([]);
+      }
+    }).catch((error) => {
+      console.error('투두 데이터를 가져오는 중 오류 발생:', error);
+    });
+  }, []);
+
+  const handleTaskCompletion = (index) => {
+    const updatedCompletedTasks = [...completedTasks];
+
+    updatedCompletedTasks[index] = !updatedCompletedTasks[index];
+    setCompletedTasks(updatedCompletedTasks);
+
+    userDocRef.collection('todos').doc(todoId).update({ completedTasks: updatedCompletedTasks })
+      .then(() => {
+        console.log('투두 완료 상태가 업데이트되었습니다.');
+      })
+      .catch((error) => {
+        console.error('투두 완료 상태 업데이트 중 오류 발생:', error);
+      });
+  };
+
+
   return (
     <>
       <MainHeader />
@@ -102,11 +176,29 @@ function Calendar() {
         </CalendarGrid>
         <CalendarContent>
           <span>{todayMonth}월 {todayDay}일 {todayWeekday}요일</span>
-          <DiaryContent><span>오늘의 일기</span>
-          <div className="textBox"><p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eum soluta blanditiis fuga, excepturi libero quod illo. Asperiores fugit, accusantium impedit at repudiandae ut odit, repellat velit sint, dolore eaque. Quis. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Rem nihil, culpa suscipit sunt tempora nostrum eius fuga illo fugiat modi magni eaque tenetur alias. Commodi culpa qui iste sapiente fugiat?Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vero sunt earum voluptate cupiditate perspiciatis, magni a, natus error accusantium quisquam aliquam facere rerum nulla eaque, omnis nihil! Sed, ea fugiat. Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci, laudantium, quaerat iste consequuntur facilis doloremque ratione numquam modi et vero in sit! Expedita necessitatibus, non vel obcaecati voluptate voluptas commodi.</p></div></DiaryContent>
+          <DiaryContent>
+            <span>오늘의 일기</span>
+            <div className="diaryBox textBox">
+              <p>{diaryText}</p>
+              {image && <ImagePreview src={image} alt="Uploaded" />}
+            </div>
+          </DiaryContent>
           <TodoContent><span>TODO-LIST</span>
-          <div className="textBox"><p>* 예시1<br />* 예시2<br />* 예시3<br />* 예시4<br />* 예시5<br />* 예시6<br />
-            </p></div></TodoContent>    
+            <div className="todoBox textBox">
+              <ul>
+                {todos.map((todo, index) => (
+                  <li key={index}>
+                    <input
+                      type="checkbox"
+                      checked={completedTasks[index]}
+                      onChange={() => handleTaskCompletion(index)}
+                    />
+                    {todo}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </TodoContent>    
         </CalendarContent>
       </CalendarContainer>
       <Navigation />
