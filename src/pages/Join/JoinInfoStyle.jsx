@@ -60,7 +60,7 @@ export const EditForm = styled.div`
   .modifyUserId{
     margin-bottom: 50px;
 
-    label{
+    span{
       font-size: 0.75rem;
       color: var(--gray400-color);
       font-weight: bold;
