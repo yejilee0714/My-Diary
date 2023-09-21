@@ -28,13 +28,15 @@ const Providers = ({ children }) => {
 };
 
 export default function Routers() {
+  const userAccount = localStorage.getItem("accountName")
+
   return (
     <Providers>
       <Routes>
         <Route path="/" element={<IntroLoginPage />} />
         <Route path="/login" element={<LoginPage />}/>
         <Route path="/join" element={<SignUp />} />
-        <Route path="/join/modify" element={<ProfileSettings />} />
+        <Route path={`/${userAccount}/joinModify`} element={<ProfileSettings />} />
         <Route path="/calendar" element={<Calendar />}/>
         <Route path="/diary" element={<Diary />}/>
         <Route path="/todo-list" element={<TodoList />}/>
