@@ -57,6 +57,7 @@ export default function TodoList(){
     // 'diaries' 컬렉션에 추가할 일기 데이터 객체 생성
     const todoData = {
       text: todos,
+      completedTasks: completedTasks,
     };
 
     userDocRef.collection('todos').doc(todoId).set(todoData)
@@ -71,9 +72,22 @@ export default function TodoList(){
   // 새로운 Todo 항목을 추가하는 함수
   const addTodo = () => {
     if (inputText.trim() !== '') {
-      setTodos([...todos, inputText]);
+      const updatedTodos = [...todos, inputText];
+      const updatedCompletedTasks = [...completedTasks, false];
+      
+      setTodos(updatedTodos);
       setInputText('');
-      setCompletedTasks([...completedTasks, false]);
+      setCompletedTasks(updatedCompletedTasks);
+
+      userDocRef.collection('todos').doc(todoId).set({
+        text: updatedTodos,
+        completedTasks: updatedCompletedTasks,
+      }).then(() => {
+        console.log('할 일이 성공적으로 추가되었습니다.');
+      })
+      .catch((error) => {
+        console.error('할 일 추가 중 오류 발생:', error);
+      });
     }
   };
 
@@ -130,6 +144,7 @@ export default function TodoList(){
   const handleTaskCompletion = (index) => {
     const updatedCompletedTasks = [...completedTasks];
     updatedCompletedTasks[index] = !updatedCompletedTasks[index];
+    setCompletedTasks(updatedCompletedTasks);
     
     userDocRef.collection('todos').doc(todoId).update({ completedTasks: updatedCompletedTasks })
     .then(() => {
@@ -138,7 +153,6 @@ export default function TodoList(){
     .catch((error) => {
       console.error('투두 완료 상태 업데이트 중 오류 발생:', error);
     });
-    setCompletedTasks(updatedCompletedTasks);
   };
 
   return (
