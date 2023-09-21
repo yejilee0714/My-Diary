@@ -20,6 +20,7 @@ const TodoContainer = styled.div`
   .btnGroup {
     text-align: right;
     margin: 8px;
+    font-size: 0.875rem;
   }
 `
 
@@ -45,17 +46,25 @@ const TodoBox = styled.div`
     background-color: #007bff;
     color: white;
     border: none;
-    padding: 10px 20px;
+    padding: 10px 20px 5px;
     margin-right: 15px;
     cursor: pointer;
     border-radius: 0px 50px 50px 0px;
   }
 
   .todoPlaceHolder{
-      color: var(--gray300-color);
-      margin: 8px;
-      line-height: 22px;
-    }
+    color: var(--gray300-color);
+    margin: 8px;
+    line-height: 22px;
+  }
+
+  .inputText{
+    margin: 10px 0 0 15px;
+  }
+
+  .inputBtn{
+    margin: 10px 15px 0 0;
+  }
 `
 
 const ListContainer = styled.div`
@@ -66,6 +75,10 @@ const ListContainer = styled.div`
     
     li {
       padding: 5px;
+
+      button{
+        font-size: 0.875rem;
+      }
     }
 
     .modifyTodoList{

@@ -107,13 +107,8 @@ const DiaryContent = styled.div`
   }
   p{
     margin: 8px;
-    line-height: 22px;
-  }
-  @media screen and (max-width: 390px) {
-    p{
-      font-size: 12px;
-      line-height: 17px;
-    }
+    font-size: 14px;
+    line-height: 17px;
   }
 `
 
@@ -131,17 +126,8 @@ const TodoContent = styled.div`
       padding: 5px;
       li {
         padding: 5px;
+        font-size: 14px;
       }
-    }
-  }
-  p{
-    margin: 8px;
-    line-height: 22px;
-  }
-  @media screen and (max-width: 390px) {
-    p{
-      font-size: 12px;
-      line-height: 17px;
     }
   }
 `

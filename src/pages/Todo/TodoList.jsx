@@ -155,11 +155,12 @@ export default function TodoList(){
               <TodoBox>
                 <input
                   type="text"
+                  className='inputText'
                   value={inputText}
                   onChange={(e) => setInputText(e.target.value)}
                   placeholder="할 일을 추가해주세요~!"
                 />
-                <button onClick={addTodo}>추가</button>
+                <button className="inputBtn" onClick={addTodo}>추가</button>
               </TodoBox>
               <ListContainer>
                 <ul>

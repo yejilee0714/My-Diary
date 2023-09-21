@@ -25,7 +25,6 @@ const DiaryContainer = styled.div`
     }
     @media screen and (max-width: 390px) {
       p{
-        font-size: 12px;
         line-height: 17px;
       }
     }
@@ -38,6 +37,7 @@ const DiaryContainer = styled.div`
   .btnGroup {
     text-align: right;
     margin: 8px;
+    font-size: 0.875rem;
   }
 `
 
