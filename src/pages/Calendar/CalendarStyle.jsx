@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { FiHeart } from 'react-icons/fi';
+import { FiHeart, FiCircle } from 'react-icons/fi';
 import '../../style/font.css'
 
 const CalendarContainer = styled.div`
@@ -65,6 +65,14 @@ const CalendarDay = styled.div`
     `}
 `;
 
+const CircleIcon = styled(FiCircle)`
+  color: #ffffff18;
+  fill: #da23ff84;
+  position: absolute;
+  width: 100%;
+  height: 50px;
+  transform: translateY(-10%);
+`
 const HeartIcon = styled(FiHeart)`
   color: #ffffff18;
   fill: #da23ff84;
@@ -93,31 +101,35 @@ const CalendarContent = styled.div`
 
 const DiaryContent = styled.div`
   margin-top: 23px;
+  .diaryBox{
+    display: flex;
+    justify-content: space-between;
+  }
   p{
     margin: 8px;
-    line-height: 22px;
-  }
-  @media screen and (max-width: 390px) {
-    p{
-      font-size: 12px;
-      line-height: 17px;
-    }
+    font-size: 14px;
+    line-height: 17px;
   }
 `
+
+const ImagePreview = styled.img`
+  width: 98px;
+  padding: 10px 10px 10px 0px;
+`;
   
 const TodoContent = styled.div`
   margin-top: 23px;
-  p{
-    margin: 8px;
-    line-height: 22px;
-  }
-  @media screen and (max-width: 390px) {
-    p{
-      font-size: 12px;
-      line-height: 17px;
+  .todoBox{
+    ul {
+      display: flex;
+      flex-direction: column;
+      padding: 5px;
+      li {
+        padding: 5px;
+        font-size: 14px;
+      }
     }
   }
 `
 
-
-export { CalendarContainer, CalendarHeader, MonthControl , CalendarButton, CalendarTitle, CalendarGrid , CalendarDay , HeartIcon, CalendarContent, DiaryContent, TodoContent};
+export { CalendarContainer, CalendarHeader, MonthControl , CalendarButton, CalendarTitle, CalendarGrid , CalendarDay , CircleIcon , HeartIcon, CalendarContent, DiaryContent, ImagePreview, TodoContent};

@@ -57,6 +57,7 @@ export default function TodoList(){
     // 'diaries' 컬렉션에 추가할 일기 데이터 객체 생성
     const todoData = {
       text: todos,
+      completedTasks: completedTasks,
     };
 
     userDocRef.collection('todos').doc(todoId).set(todoData)
@@ -71,9 +72,22 @@ export default function TodoList(){
   // 새로운 Todo 항목을 추가하는 함수
   const addTodo = () => {
     if (inputText.trim() !== '') {
-      setTodos([...todos, inputText]);
+      const updatedTodos = [...todos, inputText];
+      const updatedCompletedTasks = [...completedTasks, false];
+      
+      setTodos(updatedTodos);
       setInputText('');
-      setCompletedTasks([...completedTasks, false]);
+      setCompletedTasks(updatedCompletedTasks);
+
+      userDocRef.collection('todos').doc(todoId).set({
+        text: updatedTodos,
+        completedTasks: updatedCompletedTasks,
+      }).then(() => {
+        console.log('할 일이 성공적으로 추가되었습니다.');
+      })
+      .catch((error) => {
+        console.error('할 일 추가 중 오류 발생:', error);
+      });
     }
   };
 
@@ -129,17 +143,16 @@ export default function TodoList(){
 
   const handleTaskCompletion = (index) => {
     const updatedCompletedTasks = [...completedTasks];
-
     updatedCompletedTasks[index] = !updatedCompletedTasks[index];
     setCompletedTasks(updatedCompletedTasks);
-
+    
     userDocRef.collection('todos').doc(todoId).update({ completedTasks: updatedCompletedTasks })
-      .then(() => {
-        console.log('투두 완료 상태가 업데이트되었습니다.');
-      })
-      .catch((error) => {
-        console.error('투두 완료 상태 업데이트 중 오류 발생:', error);
-      });
+    .then(() => {
+      console.log('투두 완료 상태가 업데이트되었습니다.');
+    })
+    .catch((error) => {
+      console.error('투두 완료 상태 업데이트 중 오류 발생:', error);
+    });
   };
 
   return (
@@ -156,11 +169,12 @@ export default function TodoList(){
               <TodoBox>
                 <input
                   type="text"
+                  className='inputText'
                   value={inputText}
                   onChange={(e) => setInputText(e.target.value)}
                   placeholder="할 일을 추가해주세요~!"
                 />
-                <button onClick={addTodo}>추가</button>
+                <button className="inputBtn" onClick={addTodo}>추가</button>
               </TodoBox>
               <ListContainer>
                 <ul>
