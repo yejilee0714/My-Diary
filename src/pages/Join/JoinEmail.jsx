@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { DisabledBtn, AbledBtn } from '../../components/Common/Button';
-import InputInfo from '../../components/Common/InputInfo';
+import { DisabledBtn, AbledBtn } from '../../components/common/Button';
+import InputInfo from '../../components/common/InputInfo';
 import { JoinContainer, JoinForm } from './JoinEmailStyle';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';

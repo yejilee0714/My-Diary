@@ -1,4 +1,4 @@
-import Navigation from '../../components/Common/Navbar'
+import Navigation from '../../components/common/Navbar'
 import MainHeader from '../../components/Header/MainHeader'
 import React, { useState, useRef, useEffect } from 'react';
 import { format } from 'date-fns';
