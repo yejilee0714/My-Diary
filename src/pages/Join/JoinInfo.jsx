@@ -190,7 +190,7 @@ export default function ProfileSettings({ email, password }) {
           <ErrorMsg>{nameError}</ErrorMsg>
           {isModify ? (
               <div className="modifyUserId"> 
-                <label htmlFor="userId">계정 ID</label>
+                <span>계정 ID</span>
                 <p>{accountname}</p>
               </div>
             ) : (

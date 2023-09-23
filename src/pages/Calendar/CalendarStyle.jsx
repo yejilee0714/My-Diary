@@ -46,13 +46,13 @@ const CalendarDay = styled.div`
   position: relative;
 
   ${(props) =>
-    props.isSaturday &&
+    props.$isSaturday &&
     css`
       color: blue;
     `}
 
   ${(props) =>
-    props.isSunday &&
+    props.$isSunday &&
     css`
       color: red;
     `}
@@ -63,6 +63,13 @@ const CalendarDay = styled.div`
       background-color: transparent;
       border: none;
     `}
+
+  // Filter out the unknown props
+  ${(props) =>
+    Object.keys(props)
+      .filter((key) => key !== "$isSaturday" && key !== "$isSunday" && key !== "isEmpty")
+      .map((key) => `${key}: ${props[key]};`)
+      .join(" ")}
 `;
 
 const CircleIcon = styled(FiCircle)`
