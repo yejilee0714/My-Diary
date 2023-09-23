@@ -8,6 +8,7 @@ export default function MainHeader(){
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [profileImage, setProfileImage] = useState("");
+  const userAccount = localStorage.getItem("accountName")
 
   useEffect(() => {
     const storedProfileImage = localStorage.getItem('image');
@@ -25,7 +26,7 @@ export default function MainHeader(){
   };
 
   const handleImgBtnClick = () => {
-    navigate('/join/modify');
+    navigate(`/${userAccount}/joinModify`);
   };
 
   return(

@@ -169,6 +169,21 @@ function Calendar() {
     });
   }, []);
 
+  const handleTodoCheckboxChange = (index) => {
+    const updatedCompletedTasks = [...completedTasks];
+    updatedCompletedTasks[index] = !updatedCompletedTasks[index];
+    setCompletedTasks(updatedCompletedTasks);
+    
+    userDocRef.collection('todos').doc(todoId).update({ completedTasks: updatedCompletedTasks })
+    .then(() => {
+      console.log('투두 완료 상태가 업데이트되었습니다.');
+    })
+    .catch((error) => {
+      console.error('투두 완료 상태 업데이트 중 오류 발생:', error);
+    });
+  };
+  
+
   return (
     <>
       <MainHeader />
@@ -184,8 +199,8 @@ function Calendar() {
           {weekDays.map((day, index) => (
             <CalendarDay
               key={index}
-              isSunday={day === '일'}
-              isSaturday={day === '토'}
+              $isSunday={day === '일'}
+              $isSaturday={day === '토'}
               className="calendar-day calendar-weekday"
             >
               {day}
@@ -194,9 +209,9 @@ function Calendar() {
           {calendarDays.map((day, index) => (
             <CalendarDay
               key={index}
-              isSaturday={index % 7 === 6}
-              isSunday={index % 7 === 0}
-              isEmpty={day === null}
+              $isSaturday={index % 7 === 6}
+              $isSunday={index % 7 === 0}
+              $isEmpty={day === null}
               onClick={() => handleDayClick(day)}
             >
               {day}
@@ -233,6 +248,7 @@ function Calendar() {
                       <input
                         type="checkbox"
                         checked={completedTasks[index]}
+                        onChange={() => handleTodoCheckboxChange(index)}
                       />
                       {todo}
                     </label>

@@ -141,7 +141,7 @@ export default function TodoList(){
     });
   };
 
-  const handleTaskCompletion = (index) => {
+  const handleTodoCheckboxChange = (index) => {
     const updatedCompletedTasks = [...completedTasks];
     updatedCompletedTasks[index] = !updatedCompletedTasks[index];
     setCompletedTasks(updatedCompletedTasks);
@@ -198,7 +198,7 @@ export default function TodoList(){
                         <input
                           type="checkbox"
                           checked={completedTasks[index]}
-                          onChange={() => handleTaskCompletion(index)}
+                          onChange={() => handleTodoCheckboxChange(index)}
                         />
                         {todo}
                       </li>

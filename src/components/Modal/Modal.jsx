@@ -7,8 +7,10 @@ import { useNavigate } from 'react-router-dom';
 export default function Modal({closeModal }){
   const navigate = useNavigate();
 
+  const userAccount = localStorage.getItem("accountName")
+
   const handleProfileEdit = () => {
-    navigate('/join/modify');
+    navigate(`/${userAccount}/joinModify`);
     closeModal();
   };
 
