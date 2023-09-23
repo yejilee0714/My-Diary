@@ -142,7 +142,6 @@ export default function Diary(){
                 value={diaryText}
                 placeholder='여기에 입력하세요'
                 onChange={(e) => setDiaryText(e.target.value)}
-                isEditing={isEditing}
                 style={{ height: textAreaHeight }}
                 onInput={(e) => {
                   const element = e.target;
