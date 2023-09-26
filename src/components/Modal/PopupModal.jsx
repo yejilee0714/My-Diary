@@ -48,7 +48,6 @@ const ButtonWrapper = styled.div`
   border-top: 1px solid var(--gray50-color);
   bottom: 0px;
   align-items: center;
-  overflow: hidden;
 
   .popUpBtn {
     width: 100%;
