@@ -35,6 +35,11 @@ export default function ProfileSettings({ email, password }) {
 
   const [introduce, setIntroduce] = useState(userInfo?.intro || "");
 
+  useEffect(() => {
+    if (!image) {
+      setImage(basicProfileImage);
+    }
+  }, [image, setImage]);
 
   const modifyUserProfile = () => {
     // Firebase Firestore를 사용하여 프로필 정보 업데이트
