@@ -9,8 +9,8 @@ export default function AlertModal(props) {
       <ModalWrapper>
         {props.children}
         <ButtonWrapper>
-          <button type="button" onClick={() => props.onCancel()}>취소</button>
-          <button type="button" onClick={() => props.onSubmit()}>{props.submitText}</button>
+          <button className="popUpBtn" type="button" onClick={() => props.onCancel()}>취소</button>
+          <button className="popUpBtn" type="button" onClick={() => props.onSubmit()}>{props.submitText}</button>
         </ButtonWrapper>
       </ModalWrapper>
     </ModalBackDrop>
@@ -50,7 +50,7 @@ const ButtonWrapper = styled.div`
   align-items: center;
   overflow: hidden;
 
-  button {
+  .popUpBtn {
     width: 100%;
     font-size: 0.875rem;
     text-align: center;
