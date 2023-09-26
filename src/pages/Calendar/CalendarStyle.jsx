@@ -64,7 +64,6 @@ const CalendarDay = styled.div`
       border: none;
     `}
 
-  // Filter out the unknown props
   ${(props) =>
     Object.keys(props)
       .filter((key) => key !== "$isSaturday" && key !== "$isSunday" && key !== "isEmpty")
@@ -78,7 +77,7 @@ const CircleIcon = styled(FiCircle)`
   position: absolute;
   width: 100%;
   height: 50px;
-  transform: translateY(-10%);
+  transform: translateY(-5%);
 `
 const HeartIcon = styled(FiHeart)`
   color: #ffffff18;
@@ -86,7 +85,7 @@ const HeartIcon = styled(FiHeart)`
   position: absolute;
   width: 100%;
   height: 50px;
-  transform: translateY(-10%);
+  transform: translateY(-5%);
 `;
 
 const CalendarContent = styled.div`
