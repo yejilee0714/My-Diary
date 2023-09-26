@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import UserInfo from "../../contexts/LoginContext";
+// import UserInfo from "../../contexts/LoginContext";
 import { useNavigate } from "react-router-dom";
 import { BasicBtn } from "../../components/Common/Button";
 
@@ -23,7 +23,7 @@ function LoginPopUpPage(){
 
 const IntroLoginPage = () => {
   const [loading, setLoading] = useState(true);
-  const { userInfo } = useContext(UserInfo);
+  // const { userInfo } = useContext(UserInfo);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -33,13 +33,13 @@ const IntroLoginPage = () => {
       }, 8000);
     }
   }, []);
-
+  
   useEffect(() => {
-    if (userInfo && localStorage.getItem("accountName")) {
+    if (localStorage.getItem("accountName")) {
       // 로그인된 사용자인 경우 홈으로 이동
       navigate("/calendar");
     }
-  }, [userInfo, navigate]);
+  }, [navigate]);
 
   return loading ? <SplashPage /> : <LoginPopUpPage />;
 };

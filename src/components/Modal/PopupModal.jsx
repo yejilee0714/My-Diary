@@ -9,12 +9,8 @@ export default function AlertModal(props) {
       <ModalWrapper>
         {props.children}
         <ButtonWrapper>
-          <button type="button" onClick={() => props.onCancel()}>
-            취소
-          </button>
-          <button type="button" onClick={() => props.onSubmit()}>
-            {props.submitText}
-          </button>
+          <button type="button" onClick={() => props.onCancel()}>취소</button>
+          <button type="button" onClick={() => props.onSubmit()}>{props.submitText}</button>
         </ButtonWrapper>
       </ModalWrapper>
     </ModalBackDrop>
@@ -33,7 +29,6 @@ const ModalBackDrop = styled.div`
 
 const ModalWrapper = styled.article`
   font-family: 'GangwonEdu_OTFBoldA';
-  font-size: 1rem;
   position: relative;
   text-align: center;
   top: 50%;
@@ -58,6 +53,7 @@ const ButtonWrapper = styled.div`
   button {
     width: 100%;
     font-size: 0.875rem;
+    text-align: center;
   }
 
   button:nth-child(2) {

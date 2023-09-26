@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from "styled-components";
 import '../../style/font.css'
+import AlertModal from './PopupModal';
 
 import { useNavigate } from 'react-router-dom';
 
-export default function Modal({closeModal }){
+export default function Modal({ closeModal }){
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
+  const [isLogoutConfirmed, setIsLogoutConfirmed] = useState(false);
+
   const navigate = useNavigate();
 
   const userAccount = localStorage.getItem("accountName")
@@ -15,8 +19,18 @@ export default function Modal({closeModal }){
   };
 
   const handleLogout = () => {
+    setIsLogoutModalOpen(true);
+  };
+
+  const confirmLogout = () => {
     localStorage.clear();
+    setIsLogoutConfirmed(true);
+    closeModal();
     navigate('/');
+  };
+
+  const cancelLogout = () => {
+    setIsLogoutModalOpen(false);
   };
 
   return (
@@ -33,6 +47,13 @@ export default function Modal({closeModal }){
             <button type='button' onClick={closeModal}> 취소</button>
           </li>
         </ul>
+
+        {isLogoutModalOpen && (
+        <AlertModal onCancel={cancelLogout} onSubmit={confirmLogout} submitText="로그아웃">
+          <p>로그아웃 하시겠습니까?</p>
+        </AlertModal>
+      )}
+      {isLogoutConfirmed && ( <p>로그아웃되었습니다.</p>)}
       </ModalStyle>
   )
 }
