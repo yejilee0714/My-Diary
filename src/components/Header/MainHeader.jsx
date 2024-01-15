@@ -33,10 +33,10 @@ export default function MainHeader(){
     <>
       <BasicHeaderStyle>
         <ProfileImage>
-          <ImgBtn style={{ backgroundImage: `url(${profileImage})`, backgroundSize: 'cover' }} onClick={handleImgBtnClick} />
+          <ImgBtn style={{ backgroundImage: `url(${profileImage})`, backgroundSize: 'cover' }} onClick={handleImgBtnClick} aria-label="프로필 사진"/>
         </ProfileImage>
         <IconMore >
-          <button onClick={openModal}></button>
+          <button onClick={openModal} aria-label="더보기"></button>
         </IconMore>
       </BasicHeaderStyle>
       {isModalOpen && <Modal closeModal={closeModal} />}

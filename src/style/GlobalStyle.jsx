@@ -7,7 +7,7 @@ const GlobalStyle = createGlobalStyle`
     // Color
     --white-color: #FFFFFF;
     --main-color: #FAF8FF;
-    --sub-color: #9C85C5;
+    --sub-color: #716090;
     --warning-color: #EB5757;
     --btn-border-color: #A6B1E1;
     --btn-disabled-color: #DFCCFB; 
