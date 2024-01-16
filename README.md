@@ -20,7 +20,7 @@ PW : bunny123
 - 달에 살고 있는 토끼 이야기를 모티브로 한 달 동안의 **'월간(月間)'** 과 자신의 이야기를 기록하자는 **'스토리'** 를 합쳐서 월간스토리를 만들었습니다.
 - 월간스토리는 한 달 동안의 자신의 이야기를 기록할 수 있는 다이어리 어플입니다. 일기 및 todo-list를 기록할 수 있습니다. 사용자들이 어플을 통해 매일 일상을 기록하고 할 일을 정리해서 목표 달성 및 계획 수립에 도움을 주기 위해 개발하였습니다.
 
-## <span id = "tect">2. 기술 환경
+## <span id = "tech">2. 기술 환경
 ### [개발 기간]
 - 총 개발 기간 : 2023.08.13 ~ 2023.08.
 - 프로젝트 기획 단계 : 2023.08.13 ~ 2023.08.15
@@ -77,9 +77,17 @@ comment : 필요한 주석 추가 및 변경
         - 모달창 닫기
 
 ## <span id = "pageFunction">5. 페이지 기능
+### 1) 홈
+| [Splash] | [로그인] | [회원가입] |
+|:-:|:-:|:-:|
+|<img width="390px;" src="https://github.com/yejilee0714/My-Diary/assets/121578822/0deef338-2617-4547-89a2-95d0967d7413">| <img width="390px;" src="https://github.com/yejilee0714/My-Diary/assets/121578822/97cd527e-7e79-4546-ab4f-e7f9442e63a8">| <img width="390px;" src="https://github.com/yejilee0714/My-Diary/assets/121578822/d944a910-f59f-460d-a2fd-2b465b04c7e7">|
 
+### 2) 메인페이지
+| [캘린더] | [일기] | [투두] |
+|:-:|:-:|:-:|
+|<img width="390px;" src="https://github.com/yejilee0714/My-Diary/assets/121578822/e60c13d9-8691-4325-a6fc-1b296b65e0dc">| <img width="390px;" src="https://github.com/yejilee0714/My-Diary/assets/121578822/80c712b3-4df7-4277-8401-56bae52edcc1">| <img width="390px;" src="https://github.com/yejilee0714/My-Diary/assets/121578822/af1db438-7094-442b-b3e5-722fc2b4941a">|
 
 ## <span id = "improvements">6. 개선 사항
-- Lighthouse를 통해 성능 개선하기
+- Lighthouse를 통한 페이지 개선
 - 작성된 일기 혹은 todo-list가 있는 경우 해당 날짜에 표시하기
 - 선택한 날짜에 해당하는 일기 혹은 todo-list 사항을 수정할 수 있도록
