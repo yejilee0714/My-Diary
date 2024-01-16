@@ -13,9 +13,9 @@ export default function Navigation(){
   const location = useLocation();
   const pathname = location.pathname;
   
-  const NavLink = ({to, imgSrc, imgAlt, text, fillImgSrc}) => (
+  const NavLink = ({to, imgSrc, fillImgSrc, imgAlt, text}) => (
     <NavItem to={to} className={`nav-link ${pathname === to ? "active" : ""}`}>
-      <img src={pathname === to ? fillImgSrc : imgSrc} alt={imgAlt} width="24px" />
+      <img src={pathname === to ? fillImgSrc : imgSrc} alt={`${imgAlt} 아이콘`} width="24px" />
       <StyledNavText style={pathname === to ? {color: `var(--sub-color)`}:{color: `var(--black-color)`}}>{text}</StyledNavText>
     </NavItem>
   );

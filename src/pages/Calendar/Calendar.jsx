@@ -191,8 +191,8 @@ function Calendar() {
         <CalendarHeader>
           <CalendarTitle>{formattedDate}</CalendarTitle>
           <MonthControl>
-            <CalendarButton onClick={goToPreviousMonth}><FiChevronUp /></CalendarButton>
-            <CalendarButton onClick={goToNextMonth}><FiChevronDown/></CalendarButton>
+            <CalendarButton onClick={goToPreviousMonth} aria-label="이전 달"><FiChevronUp /></CalendarButton>
+            <CalendarButton onClick={goToNextMonth} aria-label="다음 달"><FiChevronDown/></CalendarButton>
           </MonthControl>
         </CalendarHeader>
         <CalendarGrid>
@@ -201,7 +201,7 @@ function Calendar() {
               key={index}
               $isSunday={day === '일'}
               $isSaturday={day === '토'}
-              className="calendar-day calendar-weekday"
+              className="calendarDay calendarWeekday"
             >
               {day}
             </CalendarDay>
