@@ -89,5 +89,3 @@ comment : 필요한 주석 추가 및 변경
 
 ## <span id = "improvements">6. 개선 사항
 - Lighthouse를 통한 페이지 개선
-- 작성된 일기 혹은 todo-list가 있는 경우 해당 날짜에 표시하기
-- 선택한 날짜에 해당하는 일기 혹은 todo-list 사항을 수정할 수 있도록
